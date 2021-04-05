@@ -79,21 +79,6 @@ const ChangePassword: FC<SettingProps> = ({ route, navigation }): ReactElement =
         return setNotAllowPassword(true);
       }
 
-      // mutateUser(
-      //   produce((draft) => {
-      //     draft.push({ id: 2 });
-
-      //     return draft;
-      //   }),
-      //   false
-      // ).then(() => {
-      //   console.log(userData);
-
-      // });
-
-      // if (userToken) {
-      //   setIsLoggedIn(true);
-      // }
       Alert.alert('비밀번호 재설정이 완료되었습니다.');
       navigation.navigate('PrivateInfo');
 

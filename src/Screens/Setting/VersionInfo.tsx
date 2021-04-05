@@ -1,10 +1,24 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, Button } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, SafeAreaView, StyleSheet, Button, Linking } from 'react-native';
 import { CircleView } from './styles';
+import VersionCheck from 'react-native-version-check';
 const VersionInfo = () => {
   const [isLatest, setIsLatest] = useState(false);
   const [currentVersion, setCurrentVersion] = useState('0.0.1');
+  // useEffect(() => {
+  //   VersionCheck.getLatestVersion().then((latestVersion) => {
+  //     console.log(latestVersion);
+  //     // setCurrentVersion(latestVersion)
+  //   });
+  //   VersionCheck.needUpdate().then(async (res) => {
+  //     console.log(res.isNeeded);
+  //     //  setIsLatest(res.isNeeded)
+  //     if (res.isNeeded) {
+  //       Linking.openURL(res.storeUrl); // open store if update is needed.
+  //     }
+  //   });
+  // }, [currentVersion, isLatest]);
 
   return (
     <SafeAreaView style={styles.container}>

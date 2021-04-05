@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 
-const Agreement = () => {
+const UserAgreement = () => {
   return (
     <View>
-      <Text>Agreement</Text>
+      <Text>UserAgreement</Text>
     </View>
   );
 };
-export default Agreement;
+export default UserAgreement;

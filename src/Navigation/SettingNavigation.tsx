@@ -23,7 +23,7 @@ import ChangePassword from '~/Screens/Setting/PrivateInfo/ChangePassword';
 import Help from '~/Screens/Setting/CustomCenter/Help';
 import Consult from '~/Screens/Setting/CustomCenter/Consult';
 import ConsultForm from '~/Screens/Setting/CustomCenter/Consult/ConsultForm';
-import Agreement from '~/Screens/Setting/CustomCenter/Agreement';
+import UserAgreement from '~/Screens/Setting/CustomCenter/UserAgreement';
 import PersonalInfoPolicy from '~/Screens/Setting/CustomCenter/PersonalInfoPolicy';
 import LocationServicePolicy from '~/Screens/Setting/CustomCenter/LocationServicePolicy';
 import OperationPolicy from '~/Screens/Setting/CustomCenter/OperationPolicy';
@@ -54,7 +54,7 @@ const customCenterScreens = {
   Help: Help,
   Consult: Consult,
   ConsultForm: ConsultForm,
-  Agreement: Agreement,
+  UserAgreement: UserAgreement,
   PersonalInfoPolicy: PersonalInfoPolicy,
   LocationServicePolicy: LocationServicePolicy,
   OperationPolicy: OperationPolicy,

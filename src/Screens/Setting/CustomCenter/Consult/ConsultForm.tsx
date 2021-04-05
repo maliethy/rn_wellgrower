@@ -95,21 +95,7 @@ function ConsultForm({
       //   return setErrorContent('문의사항을 입력해 주세요.');
       // }
       console.log(selectedConsultType, emailId, emailAddress, title, content);
-      // mutateUser(
-      //   produce((draft) => {
-      //     draft.push({ id: 2 });
 
-      //     return draft;
-      //   }),
-      //   false
-      // ).then(() => {
-      //   console.log(userData);
-
-      // });
-
-      // if (userToken) {
-      //   setIsLoggedIn(true);
-      // }
       Alert.alert('문의가 접수되었습니다.');
       navigation.navigate('Consult');
       setSelectedConsultType(null);

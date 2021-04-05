@@ -6,6 +6,7 @@ export enum SettingScreens {
   VersionInfo = 'VersionInfo',
   PrivateInfo = 'PrivateInfo',
   AlarmSetting = 'AlarmSetting',
+  AlarmType = 'AlarmType',
   CustomCenter = 'CustomCenter',
   Logout = 'Logout',
   Withdrawal = 'Withdrawal',
@@ -18,7 +19,7 @@ export enum SettingScreens {
   Help = 'Help',
   Consult = 'Consult',
   ConsultForm = 'ConsultForm',
-  Agreement = 'Agreement',
+  UserAgreement = 'UserAgreement',
   PersonalInfoPolicy = 'PersonalInfoPolicy',
   LocationServicePolicy = 'LocationServicePolicy',
   OperationPolicy = 'OperationPolicy',
@@ -30,6 +31,7 @@ export type SettingStackParamList = {
   VersionInfo: undefined;
   PrivateInfo: undefined;
   AlarmSetting: undefined;
+  AlarmType: undefined;
   CustomCenter: undefined;
   Logout: undefined;
   Withdrawal: undefined;
@@ -43,7 +45,7 @@ export type SettingStackParamList = {
   Help: undefined;
   Consult: undefined;
   ConsultForm: undefined;
-  Agreement: undefined;
+  UserAgreement: undefined;
   PersonalInfoPolicy: undefined;
   LocationServicePolicy: undefined;
   OperationPolicy: undefined;

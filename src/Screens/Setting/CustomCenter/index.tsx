@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { View } from 'react-native';
 import {
   Container,
@@ -14,7 +14,9 @@ import {
   Right,
   Switch,
 } from 'native-base';
-const CustomCenter = ({ navigation }) => {
+import { SettingProps } from '~/@types/setting';
+
+const CustomCenter: FC<SettingProps> = ({ navigation }) => {
   const [userName, setUserName] = useState('momo');
   const [phone, setPhone] = useState('010-5500-2288');
   const [address, setAddress] = useState('강동구 상암로 51길 54');

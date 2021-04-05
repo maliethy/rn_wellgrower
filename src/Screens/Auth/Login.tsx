@@ -28,10 +28,10 @@ import GoToButton from '~/Components/GoToButton';
 import { CloseButtonCoord } from './styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Loader from '~/Components/Loader';
-import { LoginProps, Route } from '~/@types/auth';
+import { AuthProps } from '~/@types/auth';
 
 // const back_url = "http://192.168.0.20:3000/api";
-const LogIn: FC<LoginProps> = ({ route, navigation }): ReactElement => {
+const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   // const { data: userData, mutate: mutateUser, error } = useSWR(
   //   `${back_url}/users`,
   //   fetcher
@@ -50,55 +50,39 @@ const LogIn: FC<LoginProps> = ({ route, navigation }): ReactElement => {
     }
   };
 
-  const [email, onChangeEmail, onResetEmail, setEmail] = useInput('');
+  const [phone, onChangePhone, onResetPhone, setPhone] = useInput('');
 
   const [password, onChangePassword, onResetPassword, setPassword] = useInput('');
-  const [errorEmail, setErrorEmail] = useState('');
-  const [errorPassword, setErrorPassword] = useState('');
+  const [AccountLock, setAccountLock] = useState(false);
+
   const [misMatchError, setMisMatchError] = useState(false);
   const [isSecureText, setIsSecureText] = useState(true);
   const [toggleCheckBox, setToggleCheckbox] = useState(true);
+
+  useEffect(() => {
+    if (phone.length === 10) {
+      setPhone(phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
+    }
+    if (phone.length === 13) {
+      setPhone(phone.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+    }
+  }, [phone]);
+
   const onToggleCheckbox = useCallback(
     (prev) => {
       setToggleCheckbox(prev);
     },
     [toggleCheckBox],
   );
+
   const onSubmit = useCallback(async () => {
     try {
-      // const emailRegex = /^(([^<>()\[\]\\.,;:\s~"]+(\.[^<>()\[\]\\.,;:\s~"]+)*)|(".+"))~((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      // if (!email || !email.trim()! || !emailRegex.test(email)!) {
-      //   return setErrorEmail('유효하지 않은 이메일입니다.');
-      // }
-
-      if (!password || !password.trim()!) {
-        return setErrorPassword('패스워드를 입력해 주세요.');
-      }
-      // mutateUser(
-      //   produce((draft) => {
-      //     draft.push({ id: 2 });
-
-      //     return draft;
-      //   }),
-      //   false
-      // ).then(() => {
-      //   console.log(userData);
-
-      // });
-
-      // if (userToken) {
-      //   setIsLoggedIn(true);
-      // }
-      // navigation.navigate("근무시간");
-
-      setEmail('');
+      setPhone('');
       setPassword('');
-      setErrorEmail('');
-      setErrorPassword('');
     } catch (err) {
       console.dir(err);
     }
-  }, [email, password]);
+  }, [phone, password]);
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -114,20 +98,20 @@ const LogIn: FC<LoginProps> = ({ route, navigation }): ReactElement => {
           <View style={styles.rowstyle}>
             <TextInput
               style={{ flex: 0.7, borderBottomWidth: 1, borderColor: 'gray', padding: 10 }}
-              value={email}
-              onChangeText={onChangeEmail}
-              keyboardType={'email-address'}
+              value={phone}
+              onChangeText={onChangePhone}
+              keyboardType={'numeric'}
               autoCorrect={false}
-              placeholder="이메일"
+              placeholder="전화번호"
               ref={ref_input[0]}
               onSubmitEditing={() => onFocusNext(0)}
-              // errorMessage={errorEmail}
+              // errorMessage={errorPhone}
               clearTextOnFocus={true}
               autoCapitalize={'none'}
             />
             <CloseButtonCoord>
-              {email && (
-                <AntDesign name="closecircle" color="grey" size={16} onPress={onResetEmail} />
+              {phone && (
+                <AntDesign name="closecircle" color="grey" size={16} onPress={onResetPhone} />
               )}
             </CloseButtonCoord>
           </View>

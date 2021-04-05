@@ -40,21 +40,7 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
   const onSubmit = useCallback(async () => {
     try {
       console.log(postcode, addr, extraAddr, detailedAddr);
-      // mutateUser(
-      //   produce((draft) => {
-      //     draft.push({ id: 2 });
 
-      //     return draft;
-      //   }),
-      //   false
-      // ).then(() => {
-      //   console.log(userData);
-
-      // });
-
-      // if (userToken) {
-      //   setIsLoggedIn(true);
-      // }
       Alert.alert('문의가 접수되었습니다.');
       navigation.goBack();
     } catch (err) {
@@ -111,15 +97,18 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
                 />
               )}
             </CloseButtonCoord>
-            {!postcode || !addr || !detailedAddr ? (
-              <View style={styles.buttonAreaLayout}>
-                <Text>값을 모두 넣어주세요</Text>
-              </View>
-            ) : (
-              <View style={styles.buttonAreaLayout}>
-                <Button onPress={onSubmit} title="수정완료" />
-              </View>
-            )}
+            <View style={styles.infoLayout}>
+              {!postcode || !addr || !detailedAddr ? (
+                <View style={styles.buttonAreaLayout}>
+                  <Text>값을 모두 넣어주세요</Text>
+                  <Button onPress={onSubmit} title="수정완료" disabled={true} />
+                </View>
+              ) : (
+                <View style={styles.buttonAreaLayout}>
+                  <Button onPress={onSubmit} title="수정완료" />
+                </View>
+              )}
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -167,6 +156,9 @@ const styles = StyleSheet.create({
   buttonAreaLayout: {
     fontSize: 20,
     marginBottom: 36,
+  },
+  infoLayout: {
+    flex: 1,
   },
   buttonText: {
     color: '#fff',

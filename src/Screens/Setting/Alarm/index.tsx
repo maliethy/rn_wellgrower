@@ -1,6 +1,5 @@
-import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, FC } from 'react';
 import {
   View,
   Text,
@@ -9,9 +8,17 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  ListRenderItem,
 } from 'react-native';
 import Antdesign from 'react-native-vector-icons/AntDesign';
-const DATA = [
+import { SettingProps } from '~/@types/setting';
+
+type itemProps = {
+  id: string;
+  title: string;
+  buttonType: string;
+};
+const DATA: itemProps[] = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: '알림 push 수신',
@@ -29,17 +36,22 @@ const DATA = [
   },
 ];
 
-const SettingAlarm = ({ navigation, route }) => {
+const SettingAlarm: FC<SettingProps> = ({ navigation, route }) => {
   const typeParams = route.params?.alarmType || '소리';
   const [isEnabled, setIsEnabled] = useState(false);
   const [isNightEnabled, setIsNightEnabled] = useState(false);
   const [alarmType, setAlarmType] = useState(typeParams);
+
   const toggleSwitch = useCallback(() => setIsEnabled((prev) => !prev), [isEnabled]);
   const toggleNightSwitch = useCallback(() => setIsNightEnabled((prev) => !prev), [isNightEnabled]);
-  const renderItem = ({ item }) => <Item title={item.title} buttonType={item.buttonType} />;
+  const renderItem: ListRenderItem<itemProps> = ({ item }) => (
+    <Item title={item.title} buttonType={item.buttonType} />
+  );
+
   useEffect(() => {
     typeParams && setAlarmType(typeParams);
   }, [navigation, typeParams]);
+
   const Item = useCallback(
     ({ title, buttonType }) => (
       <View style={styles.itemLayout}>
@@ -74,7 +86,7 @@ const SettingAlarm = ({ navigation, route }) => {
         </View>
       </View>
     ),
-    [isEnabled, alarmType],
+    [isEnabled, isNightEnabled, alarmType],
   );
 
   return (

@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Signup = () => {
+const Certification = () => {
   return (
     <View style={styles.container}>
-      <Text>Signup</Text>
+      <View>
+        <Text>약관동의</Text>
+      </View>
     </View>
   );
 };
@@ -15,4 +17,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default Signup;
+export default Certification;
