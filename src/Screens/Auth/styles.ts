@@ -8,11 +8,11 @@ export const CloseButtonCoord = styled.Text`
   top: 16px;
 `;
 export default {
-  blackColor: '#262626',
-  greyColor: '#FAFAFA',
-  darkGreyColor: '#999',
-  lightGreyColor: 'rgb(230, 230, 230)',
-  redColor: '#ED4956',
-  blueColor: '#3897f0',
-  darkBlueColor: '#003569',
+  inputLine: '#e6eeeeee',
+  buttonOff: '#66999999',
+  primary: '#005500',
+  lightGrey: '#94050709',
+  greyText: '#ED4956',
+  keyboardButton: '#47b6ad',
+  failRed: '#b50000',
 };
