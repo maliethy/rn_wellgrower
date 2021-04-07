@@ -26,8 +26,9 @@ import fetcher from '~/utils/fetcher';
 import produce from 'immer';
 import useInput from '~/Utils/useInput';
 import BasicButton from '~/Components/BasicButton';
+import BasicText from '~/Components/BasicText';
 import { CloseButtonCoord } from './styles';
-import color, { BasicText, ENText } from '~/styles';
+import color from '~/styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Loader from '~/Components/Loader';
 import { AuthProps } from '~/@types/auth';
@@ -178,17 +179,11 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
               </View>
               <View style={styles.rowstyle}>
                 <TouchableOpacity style={{ marginRight: 3 }}>
-                  <BasicText>아직 계정이 없어요</BasicText>
+                  <BasicText text="아직 계정이 없어요" />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                  <Text>회원가입</Text>
-                  <BasicText>회원가입</BasicText>
-                  <BasicText bold>회원가입</BasicText>
-                  <BasicText en>sign</BasicText>
-                  <BasicText en bold>
-                    sign
-                  </BasicText>
+                  <BasicText bold text="회원가입" />
                 </TouchableOpacity>
               </View>
             </View>

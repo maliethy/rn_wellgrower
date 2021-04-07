@@ -16,22 +16,26 @@ type TextProps = {
   bold?: boolean;
   en?: boolean;
 };
-export const BasicText = styled.Text`
-  font-family: 'NanumGothic-Regular';
+export const BasicTextStyle = styled.Text`
+  font-family: 'NotoSansKR-Regular';
   ${(props: TextProps) =>
     props.bold &&
     css`
-      font-family: 'NanumGothic-Bold';
+      font-family: 'NotoSansKR-Bold';
     `}
-`;
-export const ENText = styled.Text`
-  font-family: 'NanumGothic-Regular';
   ${(props: TextProps) =>
+    props.en &&
+    css`
+      font-family: 'NanumGothic';
+    `}
+  ${(props: TextProps) =>
+    props.en &&
     props.bold &&
     css`
-      font-family: 'NanumGothic-Bold';
+      font-family: 'NanumGothic';
     `}
 `;
+
 export const KOText = styled.Text`
   font-family: 'NotoSansKR-Regular';
   ${(props: TextProps) =>
