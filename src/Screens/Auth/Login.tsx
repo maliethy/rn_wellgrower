@@ -25,8 +25,9 @@ import useSWR from 'swr';
 import fetcher from '~/utils/fetcher';
 import produce from 'immer';
 import useInput from '~/Utils/useInput';
-import GoToButton from '~/Components/GoToButton';
+import BasicButton from '~/Components/BasicButton';
 import { CloseButtonCoord } from './styles';
+import color, { BasicText, ENText } from '~/styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Loader from '~/Components/Loader';
 import { AuthProps } from '~/@types/auth';
@@ -37,7 +38,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   // const { data: userData, mutate: mutateUser, error } = useSWR(
   //   `${back_url}/users`,
   //   fetcher
-  // );:
+  // );
 
   const ref_input: Array<React.RefObject<TextInput>> = [];
   ref_input[0] = useRef(null);
@@ -141,13 +142,23 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
               />
               <CloseButtonCoord>
                 {password && (
-                  <AntDesign name="closecircle" color="grey" size={16} onPress={onResetPassword} />
+                  <AntDesign
+                    name="closecircle"
+                    color="#005500"
+                    size={16}
+                    onPress={onResetPassword}
+                  />
                 )}
               </CloseButtonCoord>
             </View>
             <View style={styles.checkboxRowStyle}>
               <CheckBox
-                style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+                style={styles.checkboxStyle}
+                tintColors={{ false: '#fff', true: `${color.primary}` }}
+                tintColor={color.primary}
+                onTintColor={color.primary}
+                onFillColor={color.primary}
+                onCheckColor="#fff"
                 boxType="square"
                 disabled={false}
                 value={toggleCheckBox}
@@ -162,23 +173,24 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
             </View> */}
             <View style={styles.infoLayout}>
               <View style={styles.buttonAreaLayout}>
-                <Button onPress={onSubmit} title="로그인" />
+                <BasicButton onPress={onSubmit} title="로그인" />
+                <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
               </View>
               <View style={styles.rowstyle}>
-                <TouchableOpacity onPress={() => navigation.navigate('FindPassword')}>
-                  <Text style={styles.signupLayout}>비밀번호 찾기</Text>
+                <TouchableOpacity style={{ marginRight: 3 }}>
+                  <BasicText>아직 계정이 없어요</BasicText>
                 </TouchableOpacity>
-                <View style={styles.borderContainer}>
-                  <View style={styles.borderDivider} />
-                </View>
+
                 <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                  <Text style={styles.signupLayout}>회원가입</Text>
+                  <Text>회원가입</Text>
+                  <BasicText>회원가입</BasicText>
+                  <BasicText bold>회원가입</BasicText>
+                  <BasicText en>sign</BasicText>
+                  <BasicText en bold>
+                    sign
+                  </BasicText>
                 </TouchableOpacity>
               </View>
-
-              <TouchableOpacity onPress={() => navigation.navigate('CustomCenter')}>
-                <Text style={styles.signupLayout}>로그인에 문제가 생겼나요?</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -211,10 +223,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-  signupLayout: {
-    fontSize: 16,
-    textAlign: 'center',
-  },
 
   rowstyle: {
     justifyContent: 'center',
@@ -230,8 +238,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   buttonAreaLayout: {
-    fontSize: 20,
+    fontSize: 50,
     marginBottom: 36,
+    padding: 16,
+    fontFamily: 'NanumGothic-Regular',
   },
   buttonText: {
     color: '#fff',
@@ -244,11 +254,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
   },
-  borderDivider: {
-    borderRightWidth: 1,
-    flex: 0.7,
-    borderColor: '#000',
-  },
+  checkboxStyle: { borderColor: '#000', transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] },
 });
 
 export default LogIn;

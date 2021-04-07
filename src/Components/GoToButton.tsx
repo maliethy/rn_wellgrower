@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-export default function GoToButton({ screenName }: { screenName: string }) {
+function GoToButton({ screenName }: { screenName: string }): ReactElement {
   const navigation = useNavigation();
 
   return (
@@ -12,3 +12,4 @@ export default function GoToButton({ screenName }: { screenName: string }) {
     </View>
   );
 }
+export default GoToButton;
