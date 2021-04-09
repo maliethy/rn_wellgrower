@@ -16,10 +16,10 @@ import {
   TouchableOpacity,
   Keyboard,
   TextInput,
-  Button,
+  Platform,
   Image,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+
 import axios from 'axios';
 import useSWR from 'swr';
 import fetcher from '~/utils/fetcher';
@@ -27,13 +27,16 @@ import produce from 'immer';
 import useInput from '~/Utils/useInput';
 import BasicButton from '~/Components/BasicButton';
 import BasicText from '~/Components/BasicText';
-import { CloseButtonCoord } from './styles';
+import CheckBlue from '~/Assets/Icons/check_blue.svg';
+import CheckRed from '~/Assets/Icons/close_red.svg';
+import VisibilityOff from '~/Assets/Icons/visibility_off.svg';
+import { InputIconCoord } from '~/styles';
 import color from '~/styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Loader from '~/Components/Loader';
 import { AuthProps } from '~/@types/auth';
-import { Container, Header, Content, Item, Input, Icon } from 'native-base';
-
+import { Container, Content, Item, Input, Icon } from 'native-base';
+import SquareCheckbox from '~/Components/SquareCheckbox';
 // const back_url = "http://192.168.0.20:3000/api";
 const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   // const { data: userData, mutate: mutateUser, error } = useSWR(
@@ -61,23 +64,62 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
 
   const [misMatchError, setMisMatchError] = useState(false);
   const [isSecureText, setIsSecureText] = useState(true);
-  const [toggleCheckBox, setToggleCheckbox] = useState(true);
+  function autoHypenTel(str: string): string | unknown {
+    str = phone.replace(/[^0-9]/g, '');
+    let tmp = '';
 
+    if (str.charAt(2) === '1') {
+      if (str.length < 4) {
+        return str;
+      } else if (str.length < 7) {
+        tmp += str.substring(0, 3);
+        tmp += '-';
+        tmp += str.substring(3);
+        return setPhone(tmp);
+      } else if (str.length < 11) {
+        tmp += str.substring(0, 3);
+        tmp += '-';
+        tmp += str.substring(3, 6);
+        tmp += '-';
+        tmp += str.substring(6);
+        return setPhone(tmp);
+      } else {
+        tmp += str.substring(0, 3);
+        tmp += '-';
+        tmp += str.substring(3, 7);
+        tmp += '-';
+        tmp += str.substring(7);
+        return setPhone(tmp);
+      }
+    } else if (str.charAt(2) === '0') {
+      if (str.length < 4) {
+        return str;
+      } else if (str.length < 7) {
+        tmp += str.substring(0, 3);
+        tmp += '-';
+        tmp += str.substring(3);
+        return setPhone(tmp);
+      } else if (str.length < 11) {
+        tmp += str.substring(0, 3);
+        tmp += '-';
+        tmp += str.substring(3, 6);
+        tmp += '-';
+        tmp += str.substring(6);
+        return setPhone(tmp);
+      } else {
+        tmp += str.substring(0, 3);
+        tmp += '-';
+        tmp += str.substring(3, 7);
+        tmp += '-';
+        tmp += str.substring(7);
+        return setPhone(tmp);
+      }
+    }
+    return str;
+  }
   useEffect(() => {
-    if (phone.length === 10) {
-      setPhone(phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
-    }
-    if (phone.length === 13) {
-      setPhone(phone.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
-    }
+    autoHypenTel(phone);
   }, [phone]);
-
-  const onToggleCheckbox = useCallback(
-    (prev) => {
-      setToggleCheckbox(prev);
-    },
-    [toggleCheckBox],
-  );
 
   const onSubmit = useCallback(async () => {
     try {
@@ -103,69 +145,51 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
             <Image style={styles.logo} source={require('~/Assets/Icons/logo.png')} />
           </View>
           <View style={styles.formLayout}>
-            <View style={styles.rowstyle}>
+            <View style={[styles.inputRowstyle, { marginBottom: 44 }]}>
               <TextInput
-                style={{ flex: 0.7, borderBottomWidth: 1, borderColor: 'gray', padding: 10 }}
+                style={styles.inputStyle}
                 value={phone}
                 onChangeText={onChangePhone}
                 keyboardType={'numeric'}
                 autoCorrect={false}
                 placeholder="전화번호"
+                placeholderTextColor={color.GrayscaleDisabledText}
                 ref={ref_input[0]}
                 onSubmitEditing={() => onFocusNext(0)}
-                // errorMessage={errorPhone}
                 clearTextOnFocus={true}
                 autoCapitalize={'none'}
               />
-              <CloseButtonCoord>
-                {phone && (
-                  <AntDesign name="closecircle" color="grey" size={16} onPress={onResetPhone} />
-                )}
-              </CloseButtonCoord>
+              <InputIconCoord>
+                {(phone.charAt(2) === '1' && 12 <= phone.length && phone.length < 14) ||
+                (phone.charAt(2) === '0' && 12 <= phone.length && phone.length < 14) ? (
+                  <CheckBlue width={24} height={24} />
+                ) : phone.length > 0 ? (
+                  <CheckRed width={24} height={24} />
+                ) : null}
+              </InputIconCoord>
             </View>
-            <View style={styles.rowstyle}>
+
+            <View style={styles.inputRowstyle}>
               <TextInput
-                style={{ flex: 0.7, borderBottomWidth: 1, borderColor: 'gray', padding: 10 }}
+                style={styles.inputStyle}
                 value={password}
                 onChangeText={onChangePassword}
                 ref={ref_input[1]}
                 onSubmitEditing={() => onFocusNext(1)}
                 autoCorrect={false}
-                // errorMessage={errorPassword}
-                // rightIcon={{
-                //   type: 'antdesign',
-                //   name: isSecureText ? 'eye' : 'eyeo',
-                //   onPress: () => setIsSecureText((prev) => !prev),
-                // }}
                 placeholder="비밀번호"
+                placeholderTextColor={color.GrayscaleDisabledText}
                 autoCapitalize={'none'}
                 secureTextEntry={isSecureText}
               />
-              <CloseButtonCoord>
-                {password && (
-                  <AntDesign
-                    name="closecircle"
-                    color="#005500"
-                    size={16}
-                    onPress={onResetPassword}
-                  />
-                )}
-              </CloseButtonCoord>
+              <InputIconCoord>
+                <VisibilityOff width={24} height={24} />
+              </InputIconCoord>
             </View>
-            <View style={styles.checkboxRowStyle}>
-              <CheckBox
-                style={styles.checkboxStyle}
-                tintColors={{ false: '#fff', true: `${color.primary}` }}
-                tintColor={color.primary}
-                onTintColor={color.primary}
-                onFillColor={color.primary}
-                onCheckColor="#fff"
-                boxType="square"
-                disabled={false}
-                value={toggleCheckBox}
-                onValueChange={onToggleCheckbox}
-              />
-              <Text>자동 로그인</Text>
+
+            <View>
+              <SquareCheckbox />
+              <Text onPress={() => navigation.navigate('FindPassword')}>비밀번호 찾기</Text>
             </View>
             {/* <View>
               {misMatchError && (
@@ -174,10 +198,9 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
             </View> */}
             <View style={styles.infoLayout}>
               <View style={styles.buttonAreaLayout}>
-                <BasicButton onPress={onSubmit} title="로그인" />
                 <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
               </View>
-              <View style={styles.rowstyle}>
+              <View style={styles.inputRowstyle}>
                 <TouchableOpacity style={{ marginRight: 3 }}>
                   <BasicText text="아직 계정이 없어요" />
                 </TouchableOpacity>
@@ -196,6 +219,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
   logo: {
     width: 72,
@@ -207,12 +231,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   formLayout: {
+    padding: 16,
     flex: 2,
-    justifyContent: 'center',
   },
-  // inputLayout: {
-  //   flex: 2,
-  // },
+  inputStyle: {
+    flex: 1,
+    fontSize: 16,
+    lineHeight: 22,
+    letterSpacing: -0.6,
+    borderBottomWidth: 1,
+    borderColor: color.GrayscaleLine,
+    padding: 3,
+  },
   infoLayout: {
     flex: 1,
     fontSize: 16,
@@ -220,18 +250,17 @@ const styles = StyleSheet.create({
   },
 
   rowstyle: {
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     marginBottom: 16,
   },
-  checkboxRowStyle: {
-    justifyContent: 'flex-start',
+  inputRowstyle: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: 30,
     marginBottom: 16,
   },
+
   buttonAreaLayout: {
     fontSize: 50,
     marginBottom: 36,
@@ -249,7 +278,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
   },
-  checkboxStyle: { borderColor: '#000', transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] },
 });
 
 export default LogIn;

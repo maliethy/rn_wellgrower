@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { ButtonContainer, ButtonText } from '~/styles';
+import color, { ButtonContainer, ButtonText } from '~/styles';
 
 type BasicButtonProps = {
   onPress: () => void;
@@ -11,7 +11,7 @@ function BasicButton({ onPress, title, disabled }: BasicButtonProps): ReactEleme
   return (
     <ButtonContainer
       onPress={onPress}
-      style={{ backgroundColor: disabled ? '#66999999' : '#005500' }}>
+      style={{ backgroundColor: disabled ? color.GrayscaleDisabledText : '#005500' }}>
       <ButtonText>{title}</ButtonText>
     </ButtonContainer>
   );

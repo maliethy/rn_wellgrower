@@ -7,11 +7,12 @@ type BasicTextProps = {
   en?: boolean;
   bold?: boolean;
   size?: number;
+  ios?: boolean;
 };
 
 function BasicText({ onPress, text, size }: BasicTextProps): ReactElement {
   return (
-    <BasicTextStyle en bold style={{ fontSize: size ? size : 12 }} onPress={onPress}>
+    <BasicTextStyle en bold ios style={{ fontSize: size ? size : 12 }} onPress={onPress}>
       {text}
     </BasicTextStyle>
   );

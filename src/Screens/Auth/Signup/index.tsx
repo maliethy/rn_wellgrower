@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useState, useEffect, FC } from 'react';
 import { View, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'react-native-check-box';
 import { AuthProps } from '~/@types/auth';
 
 const Signup: FC<AuthProps> = ({ navigation }) => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect, useCallback, useRef, FC, MutableRefObject } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TextInput, Button } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'react-native-check-box';
 import useInput from '~/Utils/useInput';
 import { CloseButtonCoord } from '../styles';
 import { SettingProps } from '~/@types/setting';

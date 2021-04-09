@@ -9,8 +9,9 @@ const Container = styled.View`
   background-color: #ffffff;
 `;
 
-export default () => (
+const Loader = () => (
   <Container>
     <ActivityIndicator color="#000" />
   </Container>
 );
+export default Loader;

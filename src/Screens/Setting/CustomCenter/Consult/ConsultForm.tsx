@@ -19,7 +19,7 @@ import {
   Button,
 } from 'react-native';
 
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'react-native-check-box';
 import axios from 'axios';
 import useSWR from 'swr';
 import fetcher from '~/utils/fetcher';
