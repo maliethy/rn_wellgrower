@@ -1,27 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import color from './src/styles';
 import NavController from './src/Components/NavController';
 import useSWR from 'swr';
 import fetcher from './src/Utils/fetcher';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import back_url from './src/config/config';
 
-const back_url = 'http://192.168.0.20:3000/api';
 const App = () => {
-  const { data: userData, mutate: mutateUser, error } = useSWR(`${back_url}/users`, fetcher);
-
+  const { data: userData, mutate: mutateUser, error } = useSWR(`${back_url}/users`, fetcher, {
+    dedupingInterval: 30 * 60 * 60 * 1000,
+  });
+  const { getItem: getAT, setItem: setAT } = useAsyncStorage('accessToken');
+  const [accessToken, setAccessToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: color.PrimaryP900,
+      text: color.PrimaryP900,
+    },
+  };
+  const readAccessTokenFromStorage = async () => {
+    const AT = await getAT();
+    setAccessToken(AT);
+  };
   useEffect(() => {
-    console.log('app:', userData);
     if (userData) {
-      const userToken = AsyncStorage.getItem('isLogin');
-      console.log('userToken:', userToken);
-      if (userToken) setIsLoggedIn(true);
+      readAccessTokenFromStorage();
+      if (accessToken) setIsLoggedIn(true);
     }
   }, [userData]);
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <NavController isLoggedIn={isLoggedIn} />
     </NavigationContainer>
   );

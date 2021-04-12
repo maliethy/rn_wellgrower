@@ -1,5 +1,11 @@
 import axios from 'axios';
 
-const fetcher = (url) => axios.get(url).then((response) => response.data);
+const fetcherGet = (url: string) => axios.get(url).then((response) => response.data);
+const fetcherPost = (url: string) => axios.post(url).then((response) => response.data);
+const fetcherPut = (url: string) => axios.put(url).then((response) => response.data);
 
-export default fetcher;
+export default {
+  fetcherGet,
+  fetcherPost,
+  fetcherPut,
+};

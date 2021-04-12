@@ -14,7 +14,7 @@ export const ButtonText = styled.Text`
 export const InputIconCoord = styled.Text`
   position: absolute;
   right: 9px;
-  top: 5px;
+  top: 3px;
 `;
 type TextProps = {
   bold?: boolean;
@@ -61,7 +61,7 @@ export default {
   GrayscaleBorder: 'rgba(204, 204, 204,.6)',
   GrayscalePrimaryText: 'rgba(5, 7, 9,.9)',
   GrayscaleBubble: 'rgba(0, 0, 0,.2)',
-  GrayscaleSecondaryText: 'rgba(5, 7, 9,5.8)',
+  GrayscaleSecondaryText: 'rgba(5, 7, 9,0.58)',
   PrimaryDark: '#002b00',
   PrimaryLight: '#3d832f',
   GrayscaleWash: 'rgba(254, 254, 254,.9)',
@@ -90,4 +90,5 @@ export default {
   StatusAlert: '#d43900',
   StatusSuccess: '#1f3a93',
   StatusFail: '#b50000',
+  KeyboardButton: '#47b6ad',
 };

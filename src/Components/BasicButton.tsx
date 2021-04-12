@@ -12,7 +12,7 @@ function BasicButton({ onPress, title, disabled }: BasicButtonProps): ReactEleme
     <ButtonContainer
       onPress={onPress}
       style={{ backgroundColor: disabled ? color.GrayscaleDisabledText : '#005500' }}>
-      <ButtonText>{title}</ButtonText>
+      <ButtonText style={{ fontSize: 16 }}>{title}</ButtonText>
     </ButtonContainer>
   );
 }

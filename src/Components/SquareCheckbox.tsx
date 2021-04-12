@@ -5,20 +5,20 @@ import { View } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckWhite from '~/Assets/Icons/check_white.svg';
 import CheckGray from '~/Assets/Icons/check_gray.svg';
-function SquareCheckbox(): ReactElement {
-  const [toggleCheckBox, setToggleCheckbox] = useState(true);
-  const onToggleCheckbox = useCallback(() => {
-    setToggleCheckbox((prev) => !prev);
-  }, []);
 
+type checkboxProps = {
+  isChecked: boolean;
+  onToggleCheckbox: () => void;
+};
+function SquareCheckbox({ isChecked, onToggleCheckbox }: checkboxProps): ReactElement {
   return (
     <CheckBox
-      style={{ padding: 10 }}
-      rightTextStyle={{ color: color.PrimaryDark }}
+      style={{ flex: 1 }}
+      rightTextStyle={{ color: color.PrimaryDark, fontSize: 12 }}
       rightText={'자동로그인'}
       onClick={onToggleCheckbox}
       checkBoxColor={color.StatusFail}
-      isChecked={toggleCheckBox}
+      isChecked={isChecked}
       checkedImage={
         <View
           style={{

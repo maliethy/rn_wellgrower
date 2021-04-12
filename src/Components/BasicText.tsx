@@ -1,18 +1,35 @@
 import React, { ReactElement } from 'react';
-import { BasicTextStyle } from '~/styles';
+import basicColor, { BasicTextStyle } from '~/styles';
 
 type BasicTextProps = {
   onPress?: () => void | undefined;
   text: string;
+  color?: string;
   en?: boolean;
   bold?: boolean;
   size?: number;
   ios?: boolean;
+  otherStyle?: Record<string, unknown>;
 };
 
-function BasicText({ onPress, text, size }: BasicTextProps): ReactElement {
+function BasicText({
+  onPress,
+  text,
+  otherStyle,
+  size,
+  color,
+  bold,
+  ios,
+}: BasicTextProps): ReactElement {
   return (
-    <BasicTextStyle en bold ios style={{ fontSize: size ? size : 12 }} onPress={onPress}>
+    <BasicTextStyle
+      bold={bold}
+      ios={ios}
+      style={[
+        otherStyle,
+        { fontSize: size ? size : 12, color: color ? color : basicColor.GrayscalePrimaryText },
+      ]}
+      onPress={onPress}>
       {text}
     </BasicTextStyle>
   );
