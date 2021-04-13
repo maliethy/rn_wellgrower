@@ -1,12 +1,4 @@
-import React, {
-  FC,
-  ReactElement,
-  RefObject,
-  useState,
-  useRef,
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { FC, ReactElement, useState, useRef, useCallback, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -28,17 +20,16 @@ import produce from 'immer';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 import useInput from '~/Utils/useInput';
+import autoHypenTel from '~/Utils/autoHypenTel';
 import BasicButton from '~/Components/BasicButton';
 import BasicText from '~/Components/BasicText';
 import BasicModal from '~/Components/BasicModal';
-
 import CheckBlue from '~/Assets/Icons/check_blue.svg';
 import CheckRed from '~/Assets/Icons/close_red.svg';
 import VisibilityOn from '~/Assets/Icons/visibility_on.svg';
 import VisibilityOff from '~/Assets/Icons/visibility_off.svg';
 import { InputIconCoord } from '~/styles';
 import color from '~/styles';
-
 import Loader from '~/Components/Loader';
 import { AuthProps } from '~/@types/auth';
 import SquareCheckbox from '~/Components/SquareCheckbox';
@@ -60,8 +51,8 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       ref_input[index].current?.blur();
     }
   };
-  const { getItem: getAT, setItem: setAT } = useAsyncStorage('accessToken');
-  const { getItem: getRT, setItem: setRT } = useAsyncStorage('refreshToken');
+  const { setItem: setAT } = useAsyncStorage('accessToken');
+  const { setItem: setRT } = useAsyncStorage('refreshToken');
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
 
@@ -71,68 +62,15 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   const [phoneError, setPhoneError] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [isSecureText, setIsSecureText] = useState(true);
-  const [isChecked, setIsChecked] = useState(true);
+  const [toggleCheckboxAutoLogin, setToggleCheckboxAutoLogin] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const onToggleCheckbox = useCallback(() => {
-    setIsChecked((prev) => !prev);
+  const onToggleCheckboxAutoLogin = useCallback(() => {
+    setToggleCheckboxAutoLogin((prev) => !prev);
   }, []);
 
-  function autoHypenTel(str: string): string | unknown {
-    str = phone.replace(/[^0-9]/g, '');
-    let tmp = '';
-
-    if (str.charAt(2) === '1') {
-      if (str.length < 4) {
-        return str;
-      } else if (str.length < 7) {
-        tmp += str.substring(0, 3);
-        tmp += '-';
-        tmp += str.substring(3);
-        return setPhone(tmp);
-      } else if (str.length < 11) {
-        tmp += str.substring(0, 3);
-        tmp += '-';
-        tmp += str.substring(3, 6);
-        tmp += '-';
-        tmp += str.substring(6);
-        return setPhone(tmp);
-      } else {
-        tmp += str.substring(0, 3);
-        tmp += '-';
-        tmp += str.substring(3, 7);
-        tmp += '-';
-        tmp += str.substring(7);
-        return setPhone(tmp);
-      }
-    } else if (str.charAt(2) === '0') {
-      if (str.length < 4) {
-        return str;
-      } else if (str.length < 7) {
-        tmp += str.substring(0, 3);
-        tmp += '-';
-        tmp += str.substring(3);
-        return setPhone(tmp);
-      } else if (str.length < 11) {
-        tmp += str.substring(0, 3);
-        tmp += '-';
-        tmp += str.substring(3, 6);
-        tmp += '-';
-        tmp += str.substring(6);
-        return setPhone(tmp);
-      } else {
-        tmp += str.substring(0, 3);
-        tmp += '-';
-        tmp += str.substring(3, 7);
-        tmp += '-';
-        tmp += str.substring(7);
-        return setPhone(tmp);
-      }
-    }
-    return str;
-  }
   useEffect(() => {
-    autoHypenTel(phone);
+    autoHypenTel(phone, phone, setPhone);
     if (
       phone.length === 0 ||
       (phone.charAt(2) === '1' && 12 <= phone.length && phone.length < 14) ||
@@ -143,18 +81,10 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       setPhoneError(true);
     }
   }, [phone]);
-  const readAccessTokenFromStorage = async () => {
-    const AT = await getAT();
-    setAccessToken(AT);
-  };
 
   const writeAccessTokenToStorage = async (newValue: string) => {
     await setAT(newValue);
     setAccessToken(newValue);
-  };
-  const readRefreshTokenFromStorage = async () => {
-    const RT = await getRT();
-    setRefreshToken(RT);
   };
 
   const writeRefreshTokenToStorage = async (newValue: string) => {
@@ -163,8 +93,10 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   };
 
   useEffect(() => {
-    readAccessTokenFromStorage();
-    readRefreshTokenFromStorage();
+    if (userData) {
+      writeAccessTokenToStorage();
+      writeRefreshTokenToStorage();
+    }
   }, []);
   const onSubmit = useCallback(async () => {
     try {
@@ -201,7 +133,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       setPassword('');
       setPhoneError(false);
 
-      isChecked && console.log('auto login');
+      toggleCheckboxAutoLogin && console.log('auto login');
     } catch (err) {
       console.dir(err);
     }
@@ -273,19 +205,25 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                   style={{ width: 24, height: 24 }}
                   onPress={() => setIsSecureText((prev) => !prev)}>
                   {isSecureText ? (
-                    <VisibilityOff width={24} height={24} />
+                    <View style={{ width: 24, height: 24 }}>
+                      <VisibilityOff width={24} height={24} />
+                    </View>
                   ) : (
-                    <VisibilityOn width={24} height={24} />
+                    <View style={{ width: 24, height: 24 }}>
+                      <VisibilityOn width={24} height={24} />
+                    </View>
                   )}
                 </TouchableOpacity>
               </InputIconCoord>
             </View>
 
             <View style={styles.checkboxRow}>
-              <SquareCheckbox isChecked={isChecked} onToggleCheckbox={onToggleCheckbox} />
-              <Text style={{ fontSize: 12 }} onPress={() => navigation.navigate('FindPassword')}>
-                비밀번호 찾기
-              </Text>
+              <SquareCheckbox
+                isChecked={toggleCheckboxAutoLogin}
+                onToggleCheckbox={onToggleCheckboxAutoLogin}
+                text="자동로그인"
+              />
+              <BasicText onPress={() => navigation.navigate('FindPassword')} text="비밀번호 찾기" />
             </View>
 
             <View style={styles.infoLayout}>

@@ -5,9 +5,14 @@ export const ButtonContainer = styled.TouchableOpacity`
   background-color: #005500;
   border-radius: 4px;
 `;
+export const PageButtonContainer = styled.TouchableOpacity`
+  padding-vertical: 16px;
+  background-color: #005500;
+`;
 
 export const ButtonText = styled.Text`
   color: #fff;
+  font-size: 16px;
   align-self: center;
   font-family: 'NotoSansKR-Regular';
 `;
@@ -65,6 +70,7 @@ export default {
   PrimaryDark: '#002b00',
   PrimaryLight: '#3d832f',
   GrayscaleWash: 'rgba(254, 254, 254,.9)',
+  PrimaryP70: '#e7f4e6',
   PrimaryP700: '#2a8420',
   PrimaryP900: '#005500',
   PrimaryP800: '#1e7315',

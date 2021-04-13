@@ -1,8 +1,14 @@
 import * as React from 'react';
 import { useCallback, useState, useEffect, FC } from 'react';
 import { View, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
-import CheckBox from 'react-native-check-box';
 import { AuthProps } from '~/@types/auth';
+import CircleCheckbox from '~/Components/CircleCheckbox';
+import NoBorderCheckbox from '~/Components/NoBorderCheckbox';
+import PageButton from '~/Components/PageButton';
+import BasicText from '~/Components/BasicText';
+import color from '~/styles';
+import ClosePrimary from '~/Assets/Icons/close_primary.svg';
+import NavBack from '~/Assets/Icons/nav_back.svg';
 
 const Signup: FC<AuthProps> = ({ navigation }) => {
   const [toggleCheckBoxAll, setToggleCheckboxAll] = useState(true);
@@ -11,6 +17,23 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
   const [toggleCheckBoxLocation, setToggleCheckboxLocation] = useState(true);
   const [toggleCheckBoxMarketing, setToggleCheckboxMarketing] = useState(true);
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: '회원가입',
+      headerBackImage: () => (
+        <View style={{ padding: 16 }}>
+          <NavBack width={24} height={24} />
+        </View>
+      ),
+      headerBackTitle: ' ',
+      headerRight: () => (
+        <View style={{ padding: 16 }}>
+          <ClosePrimary width={24} height={24} onPress={() => navigation.navigate('Login')} />
+        </View>
+      ),
+    });
+  }, [navigation]);
   useEffect(() => {
     if (
       toggleCheckBoxService === false ||
@@ -28,40 +51,29 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
     toggleCheckBoxLocation,
     toggleCheckBoxMarketing,
   ]);
-  const onToggleCheckboxAll = useCallback(
-    (prev) => {
-      setToggleCheckboxAll(prev);
-      setToggleCheckboxService(prev);
-      setToggleCheckboxPrivateInfo(prev);
-      setToggleCheckboxLocation(prev);
-      setToggleCheckboxMarketing(prev);
-    },
-    [toggleCheckBoxAll],
-  );
-  const onToggleCheckboxService = useCallback(
-    (prev) => {
-      setToggleCheckboxService(prev);
-    },
-    [toggleCheckBoxService],
-  );
-  const onToggleCheckboxPrivateInfo = useCallback(
-    (prev) => {
-      setToggleCheckboxPrivateInfo(prev);
-    },
-    [toggleCheckBoxPrivateInfo],
-  );
-  const onToggleCheckboxLocation = useCallback(
-    (prev) => {
-      setToggleCheckboxLocation(prev);
-    },
-    [toggleCheckBoxLocation],
-  );
-  const onToggleCheckboxMarketing = useCallback(
-    (prev) => {
-      setToggleCheckboxMarketing(prev);
-    },
-    [toggleCheckBoxMarketing],
-  );
+  useEffect(() => {
+    if (toggleCheckBoxAll === true) {
+      setToggleCheckboxService(true);
+      setToggleCheckboxPrivateInfo(true);
+      setToggleCheckboxLocation(true);
+      setToggleCheckboxMarketing(true);
+    }
+  }, [toggleCheckBoxAll]);
+  const onToggleCheckboxAll = useCallback(() => {
+    setToggleCheckboxAll((prev) => !prev);
+  }, []);
+  const onToggleCheckboxService = useCallback(() => {
+    setToggleCheckboxService((prev) => !prev);
+  }, []);
+  const onToggleCheckboxPrivateInfo = useCallback(() => {
+    setToggleCheckboxPrivateInfo((prev) => !prev);
+  }, []);
+  const onToggleCheckboxLocation = useCallback(() => {
+    setToggleCheckboxLocation((prev) => !prev);
+  }, []);
+  const onToggleCheckboxMarketing = useCallback(() => {
+    setToggleCheckboxMarketing((prev) => !prev);
+  }, []);
   const onSubmit = useCallback(async () => {
     try {
       console.log(
@@ -70,7 +82,6 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
         toggleCheckBoxLocation,
         toggleCheckBoxMarketing,
       );
-
       navigation.navigate('Certification');
     } catch (err) {
       console.dir(err);
@@ -81,87 +92,106 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
     toggleCheckBoxLocation,
     toggleCheckBoxMarketing,
   ]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <View style={styles.title}>
-          <Text>약관동의</Text>
-          <Text>소중한 나의 작물이 잘 자랄 수 있게{'\n'}잘키움으로 관리해보세요</Text>
-        </View>
-        <View style={styles.checkboxLayout}>
-          <View style={styles.checkboxAllStyle}>
-            <CheckBox
-              style={styles.checkboxStyle}
-              tintColors={{ false: 'grey', true: 'orange' }}
-              boxType="square"
-              disabled={false}
-              value={toggleCheckBoxAll}
-              onValueChange={onToggleCheckboxAll}
+        <View style={styles.subContainer}>
+          <View style={styles.titleLayout}>
+            <BasicText
+              otherStyle={{ marginBottom: 4 }}
+              bold={true}
+              size={20}
+              color={color.PrimaryP900}
+              text="약관동의"
             />
-            <Text style={{ fontSize: 20 }}>약관 전체동의</Text>
+            <BasicText
+              size={16}
+              color={color.GrayscaleSecondaryText}
+              text={'소중한 나의 작물이 잘 자랄 수 있게'}
+            />
+            <BasicText
+              size={16}
+              color={color.GrayscaleSecondaryText}
+              text={'잘키움으로 관리해보세요'}
+            />
           </View>
-          <View style={[styles.checkboxRowStyle, { justifyContent: 'space-between' }]}>
-            <View style={styles.textRowStyle}>
-              <CheckBox
-                style={styles.checkboxStyle}
-                tintColors={{ false: 'grey', true: 'orange' }}
-                boxType="square"
-                disabled={false}
-                value={toggleCheckBoxService}
-                onValueChange={onToggleCheckboxService}
+          <View>
+            <View style={styles.checkboxAllStyle}>
+              <CircleCheckbox
+                rightTextStyle={{ color: color.PrimaryDark, fontSize: 16 }}
+                isChecked={toggleCheckBoxAll}
+                onToggleCheckbox={onToggleCheckboxAll}
+                text="약관 전체동의"
+              />
+            </View>
+            <View style={styles.checkboxRowStyle}>
+              <NoBorderCheckbox
+                isChecked={toggleCheckBoxService}
+                onToggleCheckbox={onToggleCheckboxService}
+                text="서비스 이용약관 동의(필수)"
               />
 
-              <Text>서비스 이용약관 동의(필수)</Text>
+              <View style={styles.infoButtonLayout}>
+                <BasicText
+                  color={color.GrayscaleDisabledText}
+                  onPress={() => navigation.navigate('UserAgreement')}
+                  text="보기"
+                />
+              </View>
             </View>
-            <Text onPress={() => navigation.navigate('UserAgreement')}>보기</Text>
-          </View>
-          <View style={[styles.checkboxRowStyle, { justifyContent: 'space-between' }]}>
-            <View style={styles.textRowStyle}>
-              <CheckBox
-                style={styles.checkboxStyle}
-                tintColors={{ false: 'grey', true: 'orange' }}
-                boxType="square"
-                disabled={false}
-                value={toggleCheckBoxPrivateInfo}
-                onValueChange={onToggleCheckboxPrivateInfo}
+            <View style={styles.checkboxRowStyle}>
+              <NoBorderCheckbox
+                isChecked={toggleCheckBoxPrivateInfo}
+                onToggleCheckbox={onToggleCheckboxPrivateInfo}
+                text="개인정보 제공 동의(필수)"
               />
-              <Text>개인정보 제공 동의(필수)</Text>
+
+              <View style={styles.infoButtonLayout}>
+                <BasicText
+                  color={color.GrayscaleDisabledText}
+                  onPress={() => navigation.navigate('PersonalInfoPolicy')}
+                  text="보기"
+                />
+              </View>
             </View>
-            <Text onPress={() => navigation.navigate('PersonalInfoPolicy')}>보기</Text>
-          </View>
-          <View style={styles.checkboxRowStyle}>
-            <CheckBox
-              style={styles.checkboxStyle}
-              tintColors={{ false: 'grey', true: 'orange' }}
-              boxType="square"
-              disabled={false}
-              value={toggleCheckBoxLocation}
-              onValueChange={onToggleCheckboxLocation}
-            />
-            <Text>위치정보 제공 동의(선택)</Text>
-          </View>
-          <View style={styles.checkboxRowStyle}>
-            <CheckBox
-              style={styles.checkboxStyle}
-              tintColors={{ false: 'grey', true: 'orange' }}
-              boxType="square"
-              disabled={false}
-              value={toggleCheckBoxMarketing}
-              onValueChange={onToggleCheckboxMarketing}
-            />
-            <Text>마케팅수신 동의(선택)</Text>
+            <View style={styles.checkboxRowStyle}>
+              <NoBorderCheckbox
+                isChecked={toggleCheckBoxLocation}
+                onToggleCheckbox={onToggleCheckboxLocation}
+                text="위치정보 제공 동의(선택)"
+              />
+
+              <View style={styles.infoButtonLayout}>
+                <BasicText
+                  color={color.GrayscaleDisabledText}
+                  onPress={() => navigation.navigate('LocationServicePolicy')}
+                  text="보기"
+                />
+              </View>
+            </View>
+            <View style={styles.checkboxRowStyle}>
+              <NoBorderCheckbox
+                isChecked={toggleCheckBoxMarketing}
+                onToggleCheckbox={onToggleCheckboxMarketing}
+                text="마케팅수신 동의(선택)"
+              />
+
+              <View style={styles.infoButtonLayout}>
+                <BasicText
+                  color={color.GrayscaleDisabledText}
+                  onPress={() => navigation.navigate('LocationServicePolicy')}
+                  text="보기"
+                />
+              </View>
+            </View>
           </View>
         </View>
-        <View style={styles.infoLayout}>
+        <View>
           {toggleCheckBoxService === false || toggleCheckBoxPrivateInfo === false ? (
-            <View style={styles.buttonAreaLayout}>
-              <Text>값을 모두 넣어주세요</Text>
-              <Button onPress={onSubmit} title="동의하고 시작하기" disabled={true} />
-            </View>
+            <PageButton disabled={true} title="동의하기" onPress={onSubmit} />
           ) : (
-            <View style={styles.buttonAreaLayout}>
-              <Button onPress={onSubmit} title="동의하고 시작하기" />
-            </View>
+            <PageButton title="동의하기" onPress={onSubmit} />
           )}
         </View>
       </View>
@@ -172,44 +202,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 26,
   },
-  title: {
-    flex: 2,
-    borderBottomWidth: 1,
-    borderColor: '#000',
+  subContainer: {
+    flex: 1,
+    padding: 16,
   },
-  checkboxLayout: {
-    flex: 5,
+  titleLayout: {
+    marginTop: 19,
+    marginLeft: 3,
+    marginBottom: 19,
   },
+
   checkboxAllStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'row',
-    padding: 20,
+    alignItems: 'center',
+    backgroundColor: color.PrimaryP70,
+    width: '100%',
+    height: 58,
+    paddingLeft: 13.6,
+    marginBottom: 18,
   },
   checkboxRowStyle: {
-    justifyContent: 'flex-start',
+    marginLeft: 13,
+    marginRight: 10,
+    marginBottom: 22,
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: 30,
   },
   textRowStyle: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
     flexDirection: 'row',
   },
-  checkboxStyle: { borderColor: '#000', transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] },
-  infoLayout: {
-    flex: 1,
+
+  infoButtonLayout: {
+    borderBottomWidth: 1,
+    borderColor: color.GrayscaleDisabledText,
   },
-  buttonAreaLayout: {
-    fontSize: 20,
-    marginTop: 36,
+
+  disabledButtonLayout: {
+    height: 52,
+    backgroundColor: color.PrimaryP900,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
+  buttonLayout: {
+    height: 52,
+    backgroundColor: color.PrimaryP900,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 export default Signup;

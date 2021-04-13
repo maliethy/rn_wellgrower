@@ -11,8 +11,10 @@ const App = () => {
   const { data: userData, mutate: mutateUser, error } = useSWR(`${back_url}/users`, fetcher, {
     dedupingInterval: 30 * 60 * 60 * 1000,
   });
-  const { getItem: getAT, setItem: setAT } = useAsyncStorage('accessToken');
+  const { getItem: getAT } = useAsyncStorage('accessToken');
+  const { getItem: getRT } = useAsyncStorage('refreshToken');
   const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const MyTheme = {
     ...DefaultTheme,
@@ -25,6 +27,10 @@ const App = () => {
   const readAccessTokenFromStorage = async () => {
     const AT = await getAT();
     setAccessToken(AT);
+  };
+  const readRefreshTokenFromStorage = async () => {
+    const RT = await getRT();
+    setRefreshToken(RT);
   };
   useEffect(() => {
     if (userData) {

@@ -1,19 +1,20 @@
 import React, { ReactElement } from 'react';
-import color, { ButtonContainer, ButtonText } from '~/styles';
 
-type BasicButtonProps = {
+import color, { PageButtonContainer, ButtonText } from '~/styles';
+
+type PageButtonProps = {
   onPress: () => void;
   title: string;
   disabled?: boolean;
 };
 
-function BasicButton({ onPress, title, disabled }: BasicButtonProps): ReactElement {
+function PageButton({ onPress, title, disabled }: PageButtonProps): ReactElement {
   return (
-    <ButtonContainer
+    <PageButtonContainer
       onPress={onPress}
       style={{ backgroundColor: disabled ? color.GrayscaleDisabledText : color.PrimaryP900 }}>
       <ButtonText>{title}</ButtonText>
-    </ButtonContainer>
+    </PageButtonContainer>
   );
 }
-export default BasicButton;
+export default PageButton;

@@ -9,13 +9,14 @@ import CheckGray from '~/Assets/Icons/check_gray.svg';
 type checkboxProps = {
   isChecked: boolean;
   onToggleCheckbox: () => void;
+  text: string;
 };
-function SquareCheckbox({ isChecked, onToggleCheckbox }: checkboxProps): ReactElement {
+function SquareCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): ReactElement {
   return (
     <CheckBox
       style={{ flex: 1 }}
       rightTextStyle={{ color: color.PrimaryDark, fontSize: 12 }}
-      rightText={'자동로그인'}
+      rightText={text}
       onClick={onToggleCheckbox}
       checkBoxColor={color.StatusFail}
       isChecked={isChecked}

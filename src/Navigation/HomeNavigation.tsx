@@ -15,7 +15,11 @@ const HomeStackNavigation = createStackNavigator();
 
 export default () => {
   return (
-    <HomeStackNavigation.Navigator headerMode="screen">
+    <HomeStackNavigation.Navigator
+      headerMode="screen"
+      screenOptions={{
+        cardStyle: { backgroundColor: '#fff' },
+      }}>
       {Object.entries({
         ...homeStack,
       }).map(([name, component]) => {

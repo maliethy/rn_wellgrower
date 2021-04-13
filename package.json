@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "start": "export PORT=17000 && react-native start",
     "test": "jest",
     "lint": "eslint --ext .tsx --ext .ts src/",
     "format": "prettier --check ./src",

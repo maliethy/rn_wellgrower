@@ -2,26 +2,37 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 export enum AuthScreens {
   Login = 'Login',
-  Welcome = 'Welcome',
+
   CustomCenter = 'CustomCenter',
   FindPassword = 'FindPassword',
   AddAddress = 'AddAddress',
 
   Signup = 'Signup',
   Certification = 'Certification',
+  InputPassword = 'InputPassword',
+  InputAddress = 'InputAddress',
+  Welcome = 'Welcome',
+  UserAgreement = 'UserAgreement',
+  PersonalInfoPolicy = 'PersonalInfoPolicy',
+  LocationServicePolicy = 'LocationServicePolicy',
+  MarketingPolicy = 'MarketingPolicy',
 }
 // export type SignupParams = {};
 export type AuthStackParamList = {
   Login: undefined;
-  Welcome: undefined;
   CustomCenter: undefined;
   FindPassword: undefined;
   AddAddress: { [key: string]: string };
 
   Signup: undefined;
-  Certification: undefined;
+  MarketingPolicy: undefined;
   UserAgreement: undefined;
   PersonalInfoPolicy: undefined;
+  LocationServicePolicy: undefined;
+  Certification: undefined;
+  InputPassword: undefined;
+  InputAddress: undefined;
+  Welcome: undefined;
 };
 export type Route = {
   key: string;
