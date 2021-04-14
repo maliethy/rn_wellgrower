@@ -1,7 +1,9 @@
 import styled, { css } from '@emotion/native';
 
 export const ButtonContainer = styled.TouchableOpacity`
-  padding-vertical: 6px;
+  align-items: center;
+  justify-content: center;
+  // height: 36px;
   background-color: #005500;
   border-radius: 4px;
 `;

@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useState, useRef, useCallback, useEffect } from 'react';
 import {
-  StyleSheet,
+  KeyboardAvoidingView,
   SafeAreaView,
   View,
   Text,
@@ -18,7 +18,7 @@ import fetcherGet from '~/Utils/fetcher';
 import back_url from '~/config/config';
 import produce from 'immer';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
-
+import { ScaledSheet } from 'react-native-size-matters';
 import useInput from '~/Utils/useInput';
 import autoHypenTel from '~/Utils/autoHypenTel';
 import BasicButton from '~/Components/BasicButton';
@@ -152,7 +152,10 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   //   return <Loader />;
   // }
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView
+      // keyboardVerticalOffset={-500}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.logoLayout}>
@@ -205,13 +208,9 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                   style={{ width: 24, height: 24 }}
                   onPress={() => setIsSecureText((prev) => !prev)}>
                   {isSecureText ? (
-                    <View style={{ width: 24, height: 24 }}>
-                      <VisibilityOff width={24} height={24} />
-                    </View>
+                    <VisibilityOff width={24} height={24} />
                   ) : (
-                    <View style={{ width: 24, height: 24 }}>
-                      <VisibilityOn width={24} height={24} />
-                    </View>
+                    <VisibilityOn width={24} height={24} />
                   )}
                 </TouchableOpacity>
               </InputIconCoord>
@@ -265,17 +264,16 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
           )}
         </View>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
   },
   logo: {
-    width: 72,
-    height: 72,
+    width: '72@s',
+    height: '72@vs',
   },
   logoLayout: {
     flex: 1,
@@ -283,7 +281,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   formLayout: {
-    padding: 16,
+    padding: '16@s',
+    // padding: 16,
     flex: 2,
   },
   inputStyle: {
@@ -294,7 +293,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     // borderColor: color.StatusFail,
     borderColor: color.GrayscaleLine,
-    padding: 3,
+    padding: '3@s',
+    color: '#000',
   },
   infoLayout: {
     flex: 1,
@@ -310,21 +310,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 2,
   },
-
   buttonAreaLayout: {
-    marginBottom: 36,
-    padding: 16,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  borderContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 15,
-    marginRight: 15,
+    marginBottom: '36@vs',
   },
 });
 

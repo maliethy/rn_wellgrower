@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { useCallback, useState, useEffect, FC } from 'react';
-import { View, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { AuthProps } from '~/@types/auth';
 import CircleCheckbox from '~/Components/CircleCheckbox';
 import NoBorderCheckbox from '~/Components/NoBorderCheckbox';
 import PageButton from '~/Components/PageButton';
 import BasicText from '~/Components/BasicText';
 import color from '~/styles';
-import ClosePrimary from '~/Assets/Icons/close_primary.svg';
-import NavBack from '~/Assets/Icons/nav_back.svg';
 
 const Signup: FC<AuthProps> = ({ navigation }) => {
   const [toggleCheckBoxAll, setToggleCheckboxAll] = useState(true);
@@ -17,23 +15,6 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
   const [toggleCheckBoxLocation, setToggleCheckboxLocation] = useState(true);
   const [toggleCheckBoxMarketing, setToggleCheckboxMarketing] = useState(true);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      headerTitle: '회원가입',
-      headerBackImage: () => (
-        <View style={{ padding: 16 }}>
-          <NavBack width={24} height={24} />
-        </View>
-      ),
-      headerBackTitle: ' ',
-      headerRight: () => (
-        <View style={{ padding: 16 }}>
-          <ClosePrimary width={24} height={24} onPress={() => navigation.navigate('Login')} />
-        </View>
-      ),
-    });
-  }, [navigation]);
   useEffect(() => {
     if (
       toggleCheckBoxService === false ||

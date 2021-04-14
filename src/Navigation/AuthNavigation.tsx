@@ -1,8 +1,7 @@
-import 'react-native-gesture-handler';
 import * as React from 'react';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Login from '~/Screens/Auth/Login';
 import FindPassword from '~/Screens/Auth/FindPassword';
 import CustomCenter from '~/Screens/Auth/CustomCenter';
@@ -17,10 +16,10 @@ import InputPassword from '~/Screens/Auth/Signup/InputPassword';
 import InputAddress from '~/Screens/Auth/Signup/InputAddress';
 import Welcome from '~/Screens/Auth/Signup/Welcome';
 
-import ClosePrimary from '~/Assets/Icons/close_primary.svg';
 import NavBack from '~/Assets/Icons/nav_back.svg';
-const AuthStack = createStackNavigator();
+import HeaderCloseButton from '~/Components/HeaderCloseButton';
 
+const AuthStack = createStackNavigator();
 const authScreens = {
   Login: Login,
   FindPassword: FindPassword,
@@ -45,7 +44,7 @@ const AuthNavigation: FC = () => {
       initialRouteName="Login"
       screenOptions={{
         headerStyle: { shadowOpacity: 0 },
-        cardStyle: { backgroundColor: '#fff' },
+        cardStyle: { backgroundColor: '#fff', padding: 16 },
       }}>
       {Object.entries({
         ...authScreens,
@@ -59,16 +58,12 @@ const AuthNavigation: FC = () => {
             options={{
               headerTitle: '회원가입',
               headerBackImage: () => (
-                <View style={{ padding: 16 }}>
-                  <NavBack width={24} height={24} />
-                </View>
+                <TouchableOpacity style={{ padding: 8 }}>
+                  <NavBack width={16} height={16} />
+                </TouchableOpacity>
               ),
               headerBackTitle: ' ',
-              headerRight: () => (
-                <View style={{ padding: 16 }}>
-                  <ClosePrimary width={24} height={24} onPress={() => console.log('Login')} />
-                </View>
-              ),
+              headerRight: () => <HeaderCloseButton />,
             }}
           />
         );
