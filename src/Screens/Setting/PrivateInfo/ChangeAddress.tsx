@@ -65,7 +65,15 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
           <Text style={{ marginBottom: 36 }}>{title}</Text>
           <View>
             <View style={styles.rowstyle}>
-              <View style={[styles.inputLayout, { flex: 1 }]}>
+              <View
+                style={[
+                  styles.inputLayout,
+                  {
+                    flex: 1,
+                    width: '100%',
+                    height: '100%',
+                  },
+                ]}>
                 <TextInput
                   placeholder="우편번호"
                   value={postcode}
@@ -96,7 +104,7 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
                 <AntDesign
                   name="closecircle"
                   color="grey"
-                  size={16}
+                  size={'16@ms0.3'}
                   onPress={onResetDetailedAddr}
                 />
               )}
@@ -122,6 +130,8 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    height: '100%',
   },
   titleLayout: {
     padding: 24,
@@ -167,6 +177,8 @@ const styles = StyleSheet.create({
   },
   infoLayout: {
     flex: 1,
+    width: '100%',
+    height: '100%',
   },
   borderContainer: {
     flexDirection: 'column',

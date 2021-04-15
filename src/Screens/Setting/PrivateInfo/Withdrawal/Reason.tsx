@@ -118,7 +118,12 @@ const Withdrawal: FC<SettingProps> = ({ navigation }) => {
           />
           <CloseButtonCoord reason>
             {detailReason && (
-              <AntDesign name="closecircle" color="grey" size={16} onPress={onResetDetailReason} />
+              <AntDesign
+                name="closecircle"
+                color="grey"
+                size={'16@ms0.3'}
+                onPress={onResetDetailReason}
+              />
             )}
           </CloseButtonCoord>
         </View>
@@ -145,8 +150,10 @@ export default Withdrawal;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   textContainer: {
     justifyContent: 'center',

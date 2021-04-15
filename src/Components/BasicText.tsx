@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import basicColor, { BasicTextStyle } from '~/styles';
+import { ScaledSheet } from 'react-native-size-matters';
 
 type BasicTextProps = {
   onPress?: () => void | undefined;
@@ -7,9 +8,9 @@ type BasicTextProps = {
   color?: string;
   en?: boolean;
   bold?: boolean;
-  size?: number;
+  size?: string;
   ios?: boolean;
-  otherStyle?: Record<string, unknown>;
+  otherStyle?: Record<never, number>;
 };
 
 function BasicText({
@@ -21,15 +22,14 @@ function BasicText({
   bold,
   ios,
 }: BasicTextProps): ReactElement {
+  const styles = ScaledSheet.create({
+    textStyle: {
+      fontSize: size ? size : '12@ms0.3',
+      color: color ? color : basicColor.GrayscalePrimaryText,
+    },
+  });
   return (
-    <BasicTextStyle
-      bold={bold}
-      ios={ios}
-      style={[
-        otherStyle,
-        { fontSize: size ? size : 12, color: color ? color : basicColor.GrayscalePrimaryText },
-      ]}
-      onPress={onPress}>
+    <BasicTextStyle bold={bold} ios={ios} style={[otherStyle, styles.textStyle]} onPress={onPress}>
       {text}
     </BasicTextStyle>
   );

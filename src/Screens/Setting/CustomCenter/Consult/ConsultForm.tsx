@@ -214,7 +214,12 @@ function ConsultForm({
             />
             <CloseButtonCoord>
               {directInput && (
-                <AntDesign name="closecircle" color="grey" size={16} onPress={onResetDirectInput} />
+                <AntDesign
+                  name="closecircle"
+                  color="grey"
+                  size={'16@ms0.3'}
+                  onPress={onResetDirectInput}
+                />
               )}
             </CloseButtonCoord>
             <DropDownPicker
@@ -279,7 +284,12 @@ function ConsultForm({
             />
             <CloseButtonCoord>
               {title && (
-                <AntDesign name="closecircle" color="grey" size={16} onPress={onResetTitle} />
+                <AntDesign
+                  name="closecircle"
+                  color="grey"
+                  size={'16@ms0.3'}
+                  onPress={onResetTitle}
+                />
               )}
             </CloseButtonCoord>
           </View>
@@ -310,7 +320,12 @@ function ConsultForm({
             />
             <CloseButtonCoordForTextArea>
               {content && (
-                <AntDesign name="closecircle" color="grey" size={16} onPress={onResetContent} />
+                <AntDesign
+                  name="closecircle"
+                  color="grey"
+                  size={'16@ms0.3'}
+                  onPress={onResetContent}
+                />
               )}
             </CloseButtonCoordForTextArea>
           </View>
@@ -331,6 +346,8 @@ function ConsultForm({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    height: '100%',
   },
   formLayout: {
     padding: 24,

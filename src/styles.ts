@@ -3,7 +3,7 @@ import styled, { css } from '@emotion/native';
 export const ButtonContainer = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
-  // height: 36px;
+  padding: 1px;
   background-color: #005500;
   border-radius: 4px;
 `;
@@ -15,7 +15,6 @@ export const PageButtonContainer = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
   color: #fff;
   font-size: 16px;
-  align-self: center;
   font-family: 'NotoSansKR-Regular';
 `;
 export const InputIconCoord = styled.Text`

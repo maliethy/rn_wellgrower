@@ -18,6 +18,7 @@ import Welcome from '~/Screens/Auth/Signup/Welcome';
 
 import NavBack from '~/Assets/Icons/nav_back.svg';
 import HeaderCloseButton from '~/Components/HeaderCloseButton';
+import { ScaledSheet } from 'react-native-size-matters';
 
 const AuthStack = createStackNavigator();
 const authScreens = {
@@ -44,7 +45,7 @@ const AuthNavigation: FC = () => {
       initialRouteName="Login"
       screenOptions={{
         headerStyle: { shadowOpacity: 0 },
-        cardStyle: { backgroundColor: '#fff', padding: 16 },
+        cardStyle: styles.cardStyle,
       }}>
       {Object.entries({
         ...authScreens,
@@ -59,7 +60,7 @@ const AuthNavigation: FC = () => {
               headerTitle: '회원가입',
               headerBackImage: () => (
                 <TouchableOpacity style={{ padding: 8 }}>
-                  <NavBack width={16} height={16} />
+                  <NavBack style={styles.iconSize} />
                 </TouchableOpacity>
               ),
               headerBackTitle: ' ',
@@ -72,3 +73,7 @@ const AuthNavigation: FC = () => {
   );
 };
 export default AuthNavigation;
+const styles = ScaledSheet.create({
+  cardStyle: { backgroundColor: '#fff', padding: '16@ms' },
+  iconSize: { width: '16@ms', height: '16@ms' },
+});

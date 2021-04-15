@@ -4,7 +4,7 @@ import color from '~/styles';
 import { View } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckPrimary from '~/Assets/Icons/check_primary.svg';
-import CheckWhite from '~/Assets/Icons/check_white.svg';
+import { ScaledSheet } from 'react-native-size-matters';
 
 type checkboxProps = {
   isChecked: boolean;
@@ -14,29 +14,19 @@ type checkboxProps = {
 function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): ReactElement {
   return (
     <CheckBox
-      style={{ flex: 1 }}
-      rightTextStyle={{
-        color: color.GrayscaleSecondaryText,
-        fontSize: 14,
-        lineHeight: 18,
-        letterSpacing: -0.6,
-        marginLeft: 17,
+      style={{
+        flex: 1,
+        width: '100%',
+        height: '100%',
       }}
+      rightTextStyle={styles.rightTextStyle}
       rightText={text}
       onClick={onToggleCheckbox}
       checkBoxColor={color.StatusFail}
       isChecked={isChecked}
       checkedImage={
-        <View
-          style={{
-            borderRadius: 100,
-            borderWidth: 0,
-            width: 24,
-            height: 24,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <CheckPrimary width={16} height={16} />
+        <View style={styles.checkedImageView}>
+          <CheckPrimary style={styles.iconSize} />
         </View>
       }
       unCheckedImage={
@@ -48,18 +38,35 @@ function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <View
-            style={{
-              borderRadius: 100,
-              borderColor: color.GrayscaleBorder,
-              borderWidth: 1,
-              width: 16,
-              height: 16,
-            }}
-          />
+          <View style={styles.unCheckedImageInnerView} />
         </View>
       }
     />
   );
 }
 export default CircleCheckbox;
+const styles = ScaledSheet.create({
+  rightTextStyle: {
+    color: color.GrayscaleSecondaryText,
+    fontSize: '14@ms0.3',
+    lineHeight: '18@ms',
+    letterSpacing: -0.6,
+    marginLeft: '17@ms',
+  },
+  checkedImageView: {
+    borderRadius: 100,
+    borderWidth: 0,
+    width: '24@ms',
+    height: '24@ms',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  unCheckedImageInnerView: {
+    borderRadius: 100,
+    borderColor: color.GrayscaleBorder,
+    borderWidth: 1,
+    width: '16@ms',
+    height: '16@ms',
+  },
+  iconSize: { width: '16@ms', height: '16@ms' },
+});

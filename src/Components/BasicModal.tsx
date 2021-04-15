@@ -3,6 +3,7 @@ import { Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import BasicText from './BasicText';
 import { useNavigation } from '@react-navigation/native';
 import color from '~/styles';
+import { ScaledSheet } from 'react-native-size-matters';
 
 type modalProps = {
   title: string;
@@ -30,10 +31,10 @@ const BasicModal = ({
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={styles.textView}>
-            <BasicText bold={true} size={16} otherStyle={styles.modalTitle} text={title} />
+            <BasicText bold={true} size={'16@ms0.3'} otherStyle={styles.modalTitle} text={title} />
             <BasicText
               color={color.GrayscaleSecondaryText}
-              size={14}
+              size={'14@ms0.3'}
               text={text}
               otherStyle={styles.modalText}
             />
@@ -43,7 +44,7 @@ const BasicModal = ({
             <BasicText
               otherStyle={styles.cancelTextStyle}
               color={'#fff'}
-              size={16}
+              size={'16@ms0.3'}
               text={buttonText}
             />
           </Pressable>
@@ -53,9 +54,11 @@ const BasicModal = ({
   );
 };
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   centeredView: {
     flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.GrayscaleSecondaryText,
@@ -72,29 +75,29 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   textView: {
-    padding: 23,
+    padding: '23@ms',
   },
   buttonLayout: {
-    padding: 14,
+    padding: '14@ms',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: color.PrimaryP900,
   },
 
   cancelTextStyle: {
-    fontSize: 20,
+    fontSize: '20@ms0.3',
     textAlign: 'center',
   },
   modalTitle: {
-    marginBottom: 19,
+    marginBottom: '19@ms',
   },
   modalText: {
-    marginBottom: 19,
+    marginBottom: '19@ms',
     textAlign: 'center',
   },
 
   buttonText: {
-    fontSize: 20,
+    fontSize: '20@ms0.3',
   },
 });
 
