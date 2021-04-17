@@ -64,7 +64,7 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
         toggleCheckBoxLocation,
         toggleCheckBoxMarketing,
       );
-      navigation.navigate('Certification');
+      navigation.navigate('CertificationTest');
     } catch (err) {
       console.dir(err);
     }
@@ -80,27 +80,30 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
       <View style={styles.subContainer}>
         <View style={styles.titleLayout}>
           <BasicText
-            otherStyle={{ marginBottom: 4 }}
             bold={true}
             size={'20@ms0.3'}
             color={color.PrimaryP900}
             text="약관동의"
+            otherStyle={{ lineHeight: 28, marginBottom: 4 }}
           />
-          <BasicText
-            size={'16@ms0.3'}
-            color={color.GrayscaleSecondaryText}
-            text={'소중한 나의 작물이 잘 자랄 수 있게'}
-          />
-          <BasicText
-            size={'16@ms0.3'}
-            color={color.GrayscaleSecondaryText}
-            text={'잘키움으로 관리해보세요'}
-          />
+          <View>
+            <BasicText
+              size={'16@ms0.3'}
+              color={color.GrayscaleSecondaryText}
+              text={'소중한 나의 작물이 잘 자랄 수 있게'}
+              otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+            />
+            <BasicText
+              size={'16@ms0.3'}
+              color={color.GrayscaleSecondaryText}
+              text={'잘키움으로 관리해보세요'}
+              otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+            />
+          </View>
         </View>
         <View>
           <View style={styles.checkboxAllStyle}>
             <CircleCheckbox
-              rightTextStyle={{ color: color.PrimaryDark, fontSize: 16 }}
               isChecked={toggleCheckBoxAll}
               onToggleCheckbox={onToggleCheckboxAll}
               text="약관 전체동의"
@@ -118,6 +121,7 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
                 color={color.GrayscaleDisabledText}
                 onPress={() => navigation.navigate('UserAgreement')}
                 text="보기"
+                otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
               />
             </View>
           </View>
@@ -133,6 +137,7 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
                 color={color.GrayscaleDisabledText}
                 onPress={() => navigation.navigate('PersonalInfoPolicy')}
                 text="보기"
+                otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
               />
             </View>
           </View>
@@ -148,6 +153,7 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
                 color={color.GrayscaleDisabledText}
                 onPress={() => navigation.navigate('LocationServicePolicy')}
                 text="보기"
+                otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
               />
             </View>
           </View>
@@ -163,6 +169,7 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
                 color={color.GrayscaleDisabledText}
                 onPress={() => navigation.navigate('LocationServicePolicy')}
                 text="보기"
+                otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
               />
             </View>
           </View>

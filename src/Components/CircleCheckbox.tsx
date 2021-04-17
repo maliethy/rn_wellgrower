@@ -10,14 +10,8 @@ type checkboxProps = {
   isChecked: boolean;
   onToggleCheckbox: () => void;
   text: string;
-  rightTextStyle: Record<string, unknown>;
 };
-function CircleCheckbox({
-  isChecked,
-  onToggleCheckbox,
-  text,
-  rightTextStyle,
-}: checkboxProps): ReactElement {
+function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): ReactElement {
   return (
     <CheckBox
       style={{
@@ -25,7 +19,7 @@ function CircleCheckbox({
         width: '100%',
         height: '100%',
       }}
-      rightTextStyle={rightTextStyle ? rightTextStyle : { color: color.PrimaryDark, fontSize: 12 }}
+      rightTextStyle={styles.rightTextStyle}
       rightText={text}
       onClick={onToggleCheckbox}
       checkBoxColor={color.StatusFail}
@@ -36,7 +30,7 @@ function CircleCheckbox({
             padding: 4,
           }}>
           <View style={styles.checkedImageView}>
-            <CheckWhite width={'11@s'} height={'11@s'} />
+            <CheckWhite style={styles.iconSize} />
           </View>
         </View>
       }
@@ -73,5 +67,13 @@ const styles = ScaledSheet.create({
     borderWidth: 1,
     width: '16@ms',
     height: '16@ms',
+  },
+  iconSize: { width: '11@s', height: '11@s' },
+  rightTextStyle: {
+    color: color.PrimaryDark,
+    fontSize: 16,
+    fontFamily: 'NotoSansKR-Regular',
+    lineHeight: '22@ms',
+    letterSpacing: -0.6,
   },
 });

@@ -52,6 +52,7 @@ const styles = ScaledSheet.create({
     lineHeight: '18@ms',
     letterSpacing: -0.6,
     marginLeft: '17@ms',
+    fontFamily: 'NotoSansKR-Regular',
   },
   checkedImageView: {
     borderRadius: 100,

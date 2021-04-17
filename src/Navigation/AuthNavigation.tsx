@@ -11,6 +11,7 @@ import UserAgreement from '~/Screens/Setting/CustomCenter/UserAgreement';
 import PersonalInfoPolicy from '~/Screens/Setting/CustomCenter/PersonalInfoPolicy';
 import LocationServicePolicy from '~/Screens/Setting/CustomCenter/LocationServicePolicy';
 import MarketingPolicy from '~/Screens/Auth/Signup/MarketingPolicy';
+import CertificationTest from '~/Screens/Auth/Signup/CertificationTest';
 import Certification from '~/Screens/Auth/Signup/Certification';
 import InputPassword from '~/Screens/Auth/Signup/InputPassword';
 import InputAddress from '~/Screens/Auth/Signup/InputAddress';
@@ -32,6 +33,7 @@ const signupScreens = {
   UserAgreement: UserAgreement,
   PersonalInfoPolicy: PersonalInfoPolicy,
   LocationServicePolicy: LocationServicePolicy,
+  CertificationTest: CertificationTest,
   Certification: Certification,
   InputPassword: InputPassword,
   InputAddress: InputAddress,
@@ -58,13 +60,15 @@ const AuthNavigation: FC = () => {
             component={component}
             options={{
               headerTitle: '회원가입',
-              headerBackImage: () => (
-                <TouchableOpacity style={{ padding: 8 }}>
-                  <NavBack style={styles.iconSize} />
-                </TouchableOpacity>
-              ),
+              headerTitleContainerStyle: {
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+              headerBackImage: () => <NavBack style={styles.iconSize} />,
               headerBackTitle: ' ',
               headerRight: () => <HeaderCloseButton />,
+              headerRightContainerStyle: styles.headerRightContainerStyle,
             }}
           />
         );
@@ -74,6 +78,9 @@ const AuthNavigation: FC = () => {
 };
 export default AuthNavigation;
 const styles = ScaledSheet.create({
-  cardStyle: { backgroundColor: '#fff', padding: '16@ms' },
+  cardStyle: { backgroundColor: '#fff' },
   iconSize: { width: '16@ms', height: '16@ms' },
+  headerRightContainerStyle: {
+    padding: '16@ms',
+  },
 });

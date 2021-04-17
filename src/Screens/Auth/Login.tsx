@@ -9,7 +9,9 @@ import {
   Keyboard,
   TextInput,
   Platform,
+  Text,
   Image,
+  InteractionManager,
 } from 'react-native';
 
 import axios from 'axios';
@@ -33,11 +35,28 @@ import color from '~/styles';
 import Loader from '~/Components/Loader';
 import { AuthProps } from '~/@types/auth';
 import SquareCheckbox from '~/Components/SquareCheckbox';
+import { FloatingLabelInput } from 'react-native-floating-label-input';
+import { s, vs, ms, mvs } from 'react-native-size-matters';
 
 const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   const { data: userData, error, revalidate, mutate } = useSWR(`${back_url}/user`, fetcherGet, {
     dedupingInterval: 30 * 60 * 60 * 1000,
   });
+
+  const { setItem: setAT } = useAsyncStorage('accessToken');
+  const { setItem: setRT } = useAsyncStorage('refreshToken');
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+  const [phone, onChangePhone, onResetPhone, setPhone] = useInput('');
+  const [password, onChangePassword, onResetPassword, setPassword] = useInput('');
+  const [accountLock, setAccountLock] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+  const [toggleCheckboxAutoLogin, setToggleCheckboxAutoLogin] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isFocusedPhone, setIsFocusedPhone] = useState(false);
+  const [isFocusedPassword, setIsFocusedPassword] = useState(false);
 
   const ref_input: Array<React.RefObject<TextInput>> = [];
   ref_input[0] = useRef(null);
@@ -51,22 +70,11 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       ref_input[index].current?.blur();
     }
   };
-  const { setItem: setAT } = useAsyncStorage('accessToken');
-  const { setItem: setRT } = useAsyncStorage('refreshToken');
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
-  const [phone, onChangePhone, onResetPhone, setPhone] = useInput('');
-  const [password, onChangePassword, onResetPassword, setPassword] = useInput('');
-  const [accountLock, setAccountLock] = useState(false);
-  const [phoneError, setPhoneError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [loginError, setLoginError] = useState(false);
-  const [isSecureText, setIsSecureText] = useState(true);
-  const [toggleCheckboxAutoLogin, setToggleCheckboxAutoLogin] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+
   const phoneLengthChecked =
     (phone.charAt(2) === '1' && 12 <= phone.length && phone.length < 14) ||
     (phone.charAt(2) === '0' && 12 <= phone.length && phone.length < 14);
+
   const onToggleCheckboxAutoLogin = useCallback(() => {
     setToggleCheckboxAutoLogin((prev) => !prev);
   }, []);
@@ -109,13 +117,14 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       // setAccountLock(true);
       // setLoginError(true);
 
-      if (!accessToken) {
+      if (accessToken) {
         axios
           .post(`${back_url}/v1/auth/login`, {
             user_phone: phone,
             user_pswd: password,
           })
           .then((res) => {
+            console.log(res);
             revalidate();
           })
           .catch((err) => {
@@ -123,16 +132,17 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
           });
       } else {
         axios
-          .post(`${back_url}/v1/auth/login`, {
+          .post(`${back_url}/v1/token/access`, {
             user_phone: phone,
             user_pswd: password,
-            token: accessToken,
+            header: { authorization: refreshToken },
           })
           .then((res) => {
+            console.log(res);
             revalidate();
           })
           .catch((err) => {
-            setLoginError(err.response?.data?.statusCode === 422);
+            console.log(err);
           });
       }
 
@@ -150,6 +160,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       headerShown: false,
     });
   }, [navigation]);
+
   useEffect(() => {
     loginError || accountLock ? setModalVisible(true) : setModalVisible(false);
   }, [loginError, accountLock]);
@@ -168,50 +179,38 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   const _keyboardDidHide = () => {
     setKeyboardH(0);
   };
+
   const styles = ScaledSheet.create({
     container: {
       flex: 1,
       width: '100%',
       height: '100%',
+      padding: '16@ms',
     },
     logo: {
       width: '72@s',
       height: '72@vs',
     },
     logoLayout: {
-      flex: 1,
-      width: '100%',
-      height: '100%',
+      flex: 2,
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: keyboardH ? '50@vs' : '72@vs',
-      marginBottom: keyboardH ? '20@vs' : '32@vs',
+      paddingTop: '15%',
+      paddingBottom: '5%',
     },
     formLayout: {
-      padding: '16@ms',
       flex: 2,
     },
-    inputStyle: {
-      flex: 1,
-      fontSize: '16@s',
-      lineHeight: 22,
-      letterSpacing: -0.6,
-      borderBottomWidth: 1,
-      // borderColor: color.StatusFail,
-      borderColor: color.GrayscaleLine,
-      padding: '3@ms0.3',
-      color: '#000',
-    },
     infoLayout: {
-      flex: 1,
       fontSize: '12@ms0.3',
       textAlign: 'center',
       marginBottom: '50@ms',
     },
     checkboxRow: {
       flexDirection: 'row',
-      marginBottom: keyboardH ? 8 : '42@vs',
-      marginTop: keyboardH ? 10 : '12@vs',
+      justifyContent: 'space-between',
+      marginBottom: '42@vs',
+      marginTop: '12@vs',
     },
     inputRowStyle: {
       justifyContent: 'center',
@@ -222,7 +221,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       marginBottom: '22@vs',
     },
     buttonAreaLayout: {
-      marginBottom: '50@vs',
+      marginBottom: keyboardH ? 0 : '50@vs',
     },
     emptyViewLayout: {
       height: '16@vs',
@@ -235,52 +234,53 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   // }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior="position"
+        style={styles.container}
+        keyboardVerticalOffset={-220}
+        enabled>
+        <ScrollView keyboardShouldPersistTaps="never">
           <View style={styles.logoLayout}>
             <Image style={styles.logo} source={require('~/Assets/Icons/logo.png')} />
           </View>
           <View style={styles.formLayout}>
             <View style={styles.phoneInputStyle}>
-              {phone ? (
-                <BasicText
-                  text="전화번호"
-                  color={color.PrimaryP900}
-                  otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
-                />
-              ) : (
-                <View style={styles.emptyViewLayout} />
-              )}
               <View style={styles.inputRowStyle}>
-                <TextInput
-                  style={styles.inputStyle}
+                <FloatingLabelInput
                   value={phone}
                   onChangeText={onChangePhone}
                   keyboardType={'number-pad'}
                   autoCorrect={false}
-                  placeholder="전화번호"
-                  placeholderTextColor={color.GrayscaleDisabledText}
+                  label="전화번호"
                   ref={ref_input[0]}
+                  isFocused={isFocusedPhone}
+                  onFocus={() => {
+                    setIsFocusedPhone(true);
+                  }}
+                  onBlur={() => {
+                    setIsFocusedPhone(false);
+                  }}
                   onSubmitEditing={() => {
+                    setIsFocusedPhone(false);
                     onFocusNext(0);
                     phoneValidation();
                   }}
                   autoCapitalize={'none'}
                   returnKeyType={'next'}
                   maxLength={13}
+                  rightComponent={
+                    phoneLengthChecked ? (
+                      <InputIconCoord>
+                        <CheckBlue style={styles.iconSize} />
+                      </InputIconCoord>
+                    ) : phoneError ? (
+                      <InputIconCoord>
+                        <CheckRed style={styles.iconSize} />
+                      </InputIconCoord>
+                    ) : null
+                  }
                 />
-                {phoneLengthChecked ? (
-                  <InputIconCoord>
-                    <CheckBlue style={styles.iconSize} />
-                  </InputIconCoord>
-                ) : phoneError ? (
-                  <InputIconCoord>
-                    <CheckRed style={styles.iconSize} />
-                  </InputIconCoord>
-                ) : null}
               </View>
               {!phoneLengthChecked && phoneError ? (
                 <BasicText
@@ -292,45 +292,38 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                 <View style={styles.emptyViewLayout} />
               )}
             </View>
-            {password ? (
-              <BasicText
-                text="비밀번호"
-                color={color.PrimaryP900}
-                otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
-              />
-            ) : (
-              <View style={styles.emptyViewLayout} />
-            )}
-
             <View style={styles.inputRowStyle}>
-              <TextInput
-                style={styles.inputStyle}
+              <FloatingLabelInput
+                isPassword
                 value={password}
                 onChangeText={onChangePassword}
                 ref={ref_input[1]}
+                onFocus={() => {
+                  setIsFocusedPassword(true);
+                }}
+                onBlur={() => {
+                  setIsFocusedPassword(false);
+                }}
+                isFocused={isFocusedPassword}
                 onSubmitEditing={() => {
-                  onFocusNext(1);
                   passwordValidation();
                 }}
                 autoCorrect={false}
-                placeholder="비밀번호"
-                placeholderTextColor={color.GrayscaleDisabledText}
+                label="비밀번호"
                 autoCapitalize={'none'}
-                secureTextEntry={isSecureText}
                 returnKeyType={'done'}
                 maxLength={16}
+                showPasswordContainerStyles={{
+                  width: ms(24),
+                  height: ms(24),
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: vs(25),
+                  marginRight: 9,
+                }}
+                customShowPasswordComponent={<VisibilityOff style={styles.iconSize} />}
+                customHidePasswordComponent={<VisibilityOn style={styles.iconSize} />}
               />
-              <InputIconCoord>
-                <TouchableOpacity
-                  style={{ width: 24, height: 24 }}
-                  onPress={() => setIsSecureText((prev) => !prev)}>
-                  {isSecureText ? (
-                    <VisibilityOff style={styles.iconSize} />
-                  ) : (
-                    <VisibilityOn style={styles.iconSize} />
-                  )}
-                </TouchableOpacity>
-              </InputIconCoord>
             </View>
             {passwordError ? (
               <BasicText
@@ -349,27 +342,10 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
               />
               <View>
                 <BasicText
-                  otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+                  otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
                   onPress={() => navigation.navigate('FindPassword')}
                   text="비밀번호 찾기"
                 />
-              </View>
-            </View>
-            <View style={styles.infoLayout}>
-              <View style={styles.buttonAreaLayout}>
-                {!phoneError || !passwordError ? (
-                  <BasicButton onPress={onSubmit} title="로그인" />
-                ) : (
-                  <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
-                )}
-              </View>
-              <View style={styles.inputRowStyle}>
-                <TouchableOpacity style={{ marginRight: 3 }}>
-                  <BasicText text="아직 계정이 없어요" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                  <BasicText bold={true} text="회원가입" color={color.PrimaryLight} />
-                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -392,8 +368,33 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
             />
           )}
         </ScrollView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        <View style={styles.infoLayout}>
+          <View style={styles.buttonAreaLayout}>
+            {phone &&
+            phone.trim() &&
+            password &&
+            password.trim() &&
+            !phoneError &&
+            !passwordError ? (
+              <BasicButton onPress={onSubmit} title="로그인" />
+            ) : (
+              <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
+            )}
+          </View>
+
+          {keyboardH ? null : (
+            <View style={styles.inputRowStyle}>
+              <View style={{ marginRight: 3 }}>
+                <BasicText text="아직 계정이 없어요" />
+              </View>
+              <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                <BasicText bold={true} text="회원가입하기" color={color.PrimaryLight} />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

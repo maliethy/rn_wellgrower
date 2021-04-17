@@ -13,45 +13,48 @@ type checkboxProps = {
 };
 function SquareCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): ReactElement {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <CheckBox
-        style={{
-          flex: 1,
-          width: '100%',
-          height: '100%',
-        }}
-        rightTextStyle={styles.rightTextStyle}
-        rightText={text}
-        onClick={onToggleCheckbox}
-        checkBoxColor={color.StatusFail}
-        isChecked={isChecked}
-        checkedImage={
-          <View
-            style={{
-              backgroundColor: color.PrimaryLight,
-              borderRadius: 3,
-              borderColor: color.PrimaryLight,
-              borderWidth: 1,
-            }}>
-            <CheckWhite style={styles.iconSize} />
-          </View>
-        }
-        unCheckedImage={
-          <View
-            style={{
-              borderRadius: 3,
-              borderColor: color.GrayscaleBorder,
-              borderWidth: 1,
-            }}>
-            <CheckGray style={styles.iconSize} />
-          </View>
-        }
-      />
-    </View>
+    <CheckBox
+      style={{
+        width: 90,
+        height: '100%',
+      }}
+      rightTextStyle={styles.rightTextStyle}
+      rightText={text}
+      onClick={onToggleCheckbox}
+      checkBoxColor={color.StatusFail}
+      isChecked={isChecked}
+      checkedImage={
+        <View
+          style={{
+            backgroundColor: color.PrimaryLight,
+            borderRadius: 3,
+            borderColor: color.PrimaryLight,
+            borderWidth: 1,
+          }}>
+          <CheckWhite style={styles.iconSize} />
+        </View>
+      }
+      unCheckedImage={
+        <View
+          style={{
+            borderRadius: 3,
+            borderColor: color.GrayscaleBorder,
+            borderWidth: 1,
+          }}>
+          <CheckGray style={styles.iconSize} />
+        </View>
+      }
+    />
   );
 }
 export default SquareCheckbox;
 const styles = ScaledSheet.create({
-  rightTextStyle: { color: color.PrimaryDark, fontSize: '12@ms0.3' },
+  rightTextStyle: {
+    color: color.PrimaryDark,
+    fontSize: '12@ms0.3',
+    fontFamily: 'NotoSansKR-Regular',
+    lineHeight: 16,
+    letterSpacing: -0.6,
+  },
   iconSize: { width: '16@ms', height: '16@ms' },
 });

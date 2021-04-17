@@ -16,6 +16,11 @@ const HeaderCloseButton = () => {
 };
 export default HeaderCloseButton;
 const styles = ScaledSheet.create({
-  container: { width: '24@ms', height: '24@ms' },
+  container: {
+    width: '24@ms',
+    height: '24@ms',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   iconSize: { width: '16@ms', height: '16@ms' },
 });

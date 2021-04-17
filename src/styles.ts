@@ -10,6 +10,8 @@ export const ButtonContainer = styled.TouchableOpacity`
 export const PageButtonContainer = styled.TouchableOpacity`
   padding-vertical: 16px;
   background-color: #005500;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ButtonText = styled.Text`
@@ -19,8 +21,8 @@ export const ButtonText = styled.Text`
 `;
 export const InputIconCoord = styled.Text`
   position: absolute;
-  right: 9px;
-  top: 3px;
+  right: 0px;
+  top: 25px;
 `;
 type TextProps = {
   bold?: boolean;

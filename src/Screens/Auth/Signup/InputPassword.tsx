@@ -1,26 +1,39 @@
-import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
+import { List, ListItem, Icon, Button, Text } from 'native-base';
+import { resultStyles, resultSuccessStyles, resultFailureStyles } from '../styles';
+export default function CertificationResult({ navigation }) {
+  const response = navigation.getParam('response');
+  const { success, imp_uid, merchant_uid, error_msg } = response;
+  const { wrapper, title, listContainer, list, label, value } = resultStyles;
 
-const InputPassword = () => {
-  // const passwordRules = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
-  // if (passwordRules.test(password)) {
+  const isSuccess = success === true;
+  const { icon, btn, btnText, btnIcon } = isSuccess ? resultSuccessStyles : resultFailureStyles;
 
-  // }
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>약관동의</Text>
-      </View>
+    <View style={wrapper}>
+      <Text style={title}>{`본인인증에 ${isSuccess ? '성공' : '실패'}하였습니다`}</Text>
+      <List style={listContainer}>
+        <ListItem style={list}>
+          <Text style={label}>아임포트 번호</Text>
+          <Text style={value}>{imp_uid}</Text>
+        </ListItem>
+        {isSuccess ? (
+          <ListItem style={list}>
+            <Text style={label}>주문번호</Text>
+            <Text style={value}>{merchant_uid}</Text>
+          </ListItem>
+        ) : (
+          <ListItem style={list}>
+            <Text style={label}>에러메시지</Text>
+            <Text style={value}>{error_msg}</Text>
+          </ListItem>
+        )}
+      </List>
+      <Button bordered transparent style={btn} onPress={() => navigation.navigate('InputAddress')}>
+        <Icon name="arrow-back" style={btnIcon} />
+        <Text style={btnText}>주소 입력하기</Text>
+      </Button>
     </View>
   );
-};
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-export default InputPassword;
+}
