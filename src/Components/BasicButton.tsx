@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
-import color, { ButtonContainer, ButtonText } from '~/styles';
+import { TouchableOpacity, Text } from 'react-native';
+import { color, styles } from '~/styles';
 
 type BasicButtonProps = {
   onPress: () => void;
@@ -9,11 +10,14 @@ type BasicButtonProps = {
 
 function BasicButton({ onPress, title, disabled }: BasicButtonProps): ReactElement {
   return (
-    <ButtonContainer
+    <TouchableOpacity
       onPress={onPress}
-      style={{ backgroundColor: disabled ? color.GrayscaleDisabledText : color.PrimaryP900 }}>
-      <ButtonText>{title}</ButtonText>
-    </ButtonContainer>
+      style={[
+        styles.buttonContainer,
+        { backgroundColor: disabled ? color.GrayscaleDisabledText : color.PrimaryP900 },
+      ]}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
   );
 }
 export default BasicButton;

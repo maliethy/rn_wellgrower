@@ -31,17 +31,19 @@ import CheckRed from '~/Assets/Icons/close_red.svg';
 import VisibilityOn from '~/Assets/Icons/visibility_on.svg';
 import VisibilityOff from '~/Assets/Icons/visibility_off.svg';
 import { InputIconCoord } from '~/styles';
-import color from '~/styles';
+import { color } from '~/styles';
 import Loader from '~/Components/Loader';
 import { AuthProps } from '~/@types/auth';
 import SquareCheckbox from '~/Components/SquareCheckbox';
 import { FloatingLabelInput } from 'react-native-floating-label-input';
 import { s, vs, ms, mvs } from 'react-native-size-matters';
+import useOrientation from '~/Utils/useOrientation';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   const { data: userData, error, revalidate, mutate } = useSWR(`${back_url}/user`, fetcherGet, {
     dedupingInterval: 30 * 60 * 60 * 1000,
-  });
+  }); //dedupingInterval: 30분
 
   const { setItem: setAT } = useAsyncStorage('accessToken');
   const { setItem: setRT } = useAsyncStorage('refreshToken');
@@ -57,6 +59,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isFocusedPhone, setIsFocusedPhone] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+  const orientation = useOrientation();
 
   const ref_input: Array<React.RefObject<TextInput>> = [];
   ref_input[0] = useRef(null);
@@ -95,6 +98,12 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   useEffect(() => {
     autoHypenTel(phone, phone, setPhone);
   }, [phone]);
+
+  useEffect(() => {
+    if (password) {
+      passwordValidation();
+    }
+  }, [password]);
 
   const writeAccessTokenToStorage = async (newValue: string) => {
     await setAT(newValue);
@@ -235,12 +244,174 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        behavior="position"
-        style={styles.container}
-        keyboardVerticalOffset={-220}
-        enabled>
-        <ScrollView keyboardShouldPersistTaps="never">
+      {orientation === 'PORTRAIT' ? (
+        <KeyboardAvoidingView
+          behavior="position"
+          style={styles.container}
+          keyboardVerticalOffset={-250}
+          enabled>
+          <ScrollView keyboardShouldPersistTaps="never">
+            <View style={styles.logoLayout}>
+              <Image style={styles.logo} source={require('~/Assets/Icons/logo.png')} />
+            </View>
+            <View style={styles.formLayout}>
+              <View style={styles.phoneInputStyle}>
+                <View style={styles.inputRowStyle}>
+                  <FloatingLabelInput
+                    value={phone}
+                    onChangeText={onChangePhone}
+                    keyboardType={'number-pad'}
+                    autoCorrect={false}
+                    label="전화번호"
+                    ref={ref_input[0]}
+                    isFocused={isFocusedPhone}
+                    onFocus={() => {
+                      setIsFocusedPhone(true);
+                    }}
+                    onBlur={() => {
+                      setIsFocusedPhone(false);
+                      phoneValidation();
+                    }}
+                    onSubmitEditing={() => {
+                      setIsFocusedPhone(false);
+                      onFocusNext(0);
+                    }}
+                    autoCapitalize={'none'}
+                    returnKeyType={'next'}
+                    maxLength={13}
+                    rightComponent={
+                      phoneLengthChecked ? (
+                        <InputIconCoord>
+                          <CheckBlue style={styles.iconSize} />
+                        </InputIconCoord>
+                      ) : phoneError ? (
+                        <InputIconCoord>
+                          <CheckRed style={styles.iconSize} />
+                        </InputIconCoord>
+                      ) : null
+                    }
+                  />
+                </View>
+                {!phoneLengthChecked && phoneError ? (
+                  <BasicText
+                    color={color.StatusFail}
+                    otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+                    text="010-000(0)-0000의 형태로 입력해주세요"
+                  />
+                ) : (
+                  <View style={styles.emptyViewLayout} />
+                )}
+              </View>
+              <View style={styles.inputRowStyle}>
+                <FloatingLabelInput
+                  isPassword
+                  value={password}
+                  onChangeText={onChangePassword}
+                  ref={ref_input[1]}
+                  onFocus={() => {
+                    setIsFocusedPassword(true);
+                  }}
+                  onBlur={() => {
+                    setIsFocusedPassword(false);
+                  }}
+                  isFocused={isFocusedPassword}
+                  onSubmitEditing={() => {
+                    passwordValidation();
+                  }}
+                  autoCorrect={false}
+                  label="비밀번호"
+                  autoCapitalize={'none'}
+                  returnKeyType={'done'}
+                  maxLength={16}
+                  showPasswordContainerStyles={{
+                    width: ms(24),
+                    height: ms(24),
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: vs(25),
+                    marginRight: 9,
+                  }}
+                  customShowPasswordComponent={<VisibilityOff style={styles.iconSize} />}
+                  customHidePasswordComponent={<VisibilityOn style={styles.iconSize} />}
+                />
+              </View>
+              {passwordError ? (
+                <BasicText
+                  otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+                  color={color.StatusFail}
+                  text="비밀번호를 입력해주세요"
+                />
+              ) : (
+                <View style={styles.emptyViewLayout} />
+              )}
+              <View style={styles.checkboxRow}>
+                <SquareCheckbox
+                  isChecked={toggleCheckboxAutoLogin}
+                  onToggleCheckbox={onToggleCheckboxAutoLogin}
+                  text="자동로그인"
+                />
+                <View>
+                  <BasicText
+                    otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
+                    onPress={() => navigation.navigate('FindPassword')}
+                    text="비밀번호 찾기"
+                  />
+                </View>
+              </View>
+            </View>
+            {loginError && (
+              <BasicModal
+                title="로그인 오류"
+                text="전화번호 또는 비밀번호가 올바르지 않습니다"
+                buttonText="다시시도"
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
+            )}
+            {accountLock && (
+              <BasicModal
+                title="로그인 오류"
+                text="N회 입력 오류로 계정이 잠겼습니다"
+                buttonText="계정 잠금 해제"
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
+            )}
+          </ScrollView>
+          <View style={styles.infoLayout}>
+            <View style={styles.buttonAreaLayout}>
+              {phone &&
+              phone.trim() &&
+              password &&
+              password.trim() &&
+              !phoneError &&
+              !passwordError ? (
+                <BasicButton onPress={onSubmit} title="로그인" />
+              ) : (
+                <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
+              )}
+            </View>
+
+            {keyboardH ? null : (
+              <View style={styles.inputRowStyle}>
+                <View style={{ marginRight: 3 }}>
+                  <BasicText text="아직 계정이 없어요" />
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                  <BasicText bold={true} text="회원가입하기" color={color.PrimaryLight} />
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </KeyboardAvoidingView>
+      ) : (
+        <KeyboardAwareScrollView
+          enableOnAndroid={true}
+          enableAutomaticScroll={true}
+          extraScrollHeight={5}
+          resetScrollToCoords={{ x: 0, y: 100 }}
+          scrollEnabled={true}
+          style={styles.container}>
           <View style={styles.logoLayout}>
             <Image style={styles.logo} source={require('~/Assets/Icons/logo.png')} />
           </View>
@@ -253,6 +424,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                   keyboardType={'number-pad'}
                   autoCorrect={false}
                   label="전화번호"
+                  disableFullscreenUI={true}
                   ref={ref_input[0]}
                   isFocused={isFocusedPhone}
                   onFocus={() => {
@@ -310,6 +482,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                 }}
                 autoCorrect={false}
                 label="비밀번호"
+                disableFullscreenUI={true}
                 autoCapitalize={'none'}
                 returnKeyType={'done'}
                 maxLength={16}
@@ -349,6 +522,31 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
               </View>
             </View>
           </View>
+          <View style={styles.infoLayout}>
+            <View style={styles.buttonAreaLayout}>
+              {phone &&
+              phone.trim() &&
+              password &&
+              password.trim() &&
+              !phoneError &&
+              !passwordError ? (
+                <BasicButton onPress={onSubmit} title="로그인" />
+              ) : (
+                <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
+              )}
+            </View>
+
+            {keyboardH ? null : (
+              <View style={styles.inputRowStyle}>
+                <View style={{ marginRight: 3 }}>
+                  <BasicText text="아직 계정이 없어요" />
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                  <BasicText bold={true} text="회원가입하기" color={color.PrimaryLight} />
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
           {loginError && (
             <BasicModal
               title="로그인 오류"
@@ -367,33 +565,8 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
               setModalVisible={setModalVisible}
             />
           )}
-        </ScrollView>
-        <View style={styles.infoLayout}>
-          <View style={styles.buttonAreaLayout}>
-            {phone &&
-            phone.trim() &&
-            password &&
-            password.trim() &&
-            !phoneError &&
-            !passwordError ? (
-              <BasicButton onPress={onSubmit} title="로그인" />
-            ) : (
-              <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
-            )}
-          </View>
-
-          {keyboardH ? null : (
-            <View style={styles.inputRowStyle}>
-              <View style={{ marginRight: 3 }}>
-                <BasicText text="아직 계정이 없어요" />
-              </View>
-              <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                <BasicText bold={true} text="회원가입하기" color={color.PrimaryLight} />
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
+      )}
     </TouchableWithoutFeedback>
   );
 };

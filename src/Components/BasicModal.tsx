@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback, useState } from 'react';
 import { Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import BasicText from './BasicText';
 import { useNavigation } from '@react-navigation/native';
-import color from '~/styles';
+import { color } from '~/styles';
 import { ScaledSheet } from 'react-native-size-matters';
 
 type modalProps = {

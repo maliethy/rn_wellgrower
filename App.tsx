@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import color from './src/styles';
+import { color } from './src/styles';
 import NavController from './src/Components/NavController';
 import useSWR from 'swr';
 import fetcher from './src/Utils/fetcher';
@@ -10,7 +10,7 @@ import back_url from './src/config/config';
 const App = () => {
   const { data: userData, mutate: mutateUser, error } = useSWR(`${back_url}/users`, fetcher, {
     dedupingInterval: 30 * 60 * 60 * 1000,
-  });
+  }); //dedupingInterval: 30분
   const { getItem: getAT } = useAsyncStorage('accessToken');
   const { getItem: getRT } = useAsyncStorage('refreshToken');
   const [accessToken, setAccessToken] = useState('');

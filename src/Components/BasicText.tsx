@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import basicColor, { BasicTextStyle } from '~/styles';
+import { color as BasicColor, BasicTextStyle } from '~/styles';
 import { ScaledSheet } from 'react-native-size-matters';
 
 type BasicTextProps = {
@@ -25,7 +25,7 @@ function BasicText({
   const styles = ScaledSheet.create({
     textStyle: {
       fontSize: size ? size : '12@ms0.3',
-      color: color ? color : basicColor.GrayscalePrimaryText,
+      color: color ? color : BasicColor.GrayscalePrimaryText,
     },
   });
   return (

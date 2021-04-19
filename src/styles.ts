@@ -1,24 +1,6 @@
 import styled, { css } from '@emotion/native';
+import { ScaledSheet } from 'react-native-size-matters';
 
-export const ButtonContainer = styled.TouchableOpacity`
-  align-items: center;
-  justify-content: center;
-  padding: 1px;
-  background-color: #005500;
-  border-radius: 4px;
-`;
-export const PageButtonContainer = styled.TouchableOpacity`
-  padding-vertical: 16px;
-  background-color: #005500;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ButtonText = styled.Text`
-  color: #fff;
-  font-size: 16px;
-  font-family: 'NotoSansKR-Regular';
-`;
 export const InputIconCoord = styled.Text`
   position: absolute;
   right: 0px;
@@ -63,7 +45,7 @@ export const BasicTextStyle = styled.Text`
     `}
 `;
 
-export default {
+export const color = {
   GrayscaleLine: 'rgba(238, 238, 238,.9)',
   GrayscaleDisabledText: 'rgba(153, 153, 153,.4)',
   GrayscaleBorder: 'rgba(204, 204, 204,.6)',
@@ -101,3 +83,27 @@ export default {
   StatusFail: '#b50000',
   KeyboardButton: '#47b6ad',
 };
+export const styles = ScaledSheet.create({
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: '6@ms0.3',
+    backgroundColor: color.PrimaryP900,
+    borderRadius: 4,
+  },
+  pageButtonContainer: {
+    backgroundColor: color.PrimaryP900,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: '16@ms0.3',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: '16@ms0.3',
+    lineHeight: '22@ms0.3',
+    letterSpacing: -0.6,
+    fontFamily: 'NotoSansKR-Regular',
+  },
+
+  iconSize: { width: '16@ms', height: '16@ms' },
+});

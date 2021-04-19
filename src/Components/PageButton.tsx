@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
-
-import color, { PageButtonContainer, ButtonText } from '~/styles';
+import { Text, TouchableOpacity } from 'react-native';
+import { color, styles, ButtonText } from '~/styles';
+import { s, vs, ms, mvs } from 'react-native-size-matters';
 
 type PageButtonProps = {
   onPress: () => void;
@@ -10,11 +11,14 @@ type PageButtonProps = {
 
 function PageButton({ onPress, title, disabled }: PageButtonProps): ReactElement {
   return (
-    <PageButtonContainer
+    <TouchableOpacity
       onPress={onPress}
-      style={{ backgroundColor: disabled ? color.GrayscaleDisabledText : color.PrimaryP900 }}>
-      <ButtonText>{title}</ButtonText>
-    </PageButtonContainer>
+      style={[
+        styles.pageButtonContainer,
+        { backgroundColor: disabled ? color.GrayscaleDisabledText : color.PrimaryP900 },
+      ]}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
   );
 }
 export default PageButton;

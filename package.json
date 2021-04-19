@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "export PORT=17000 && react-native start",
+    "start": "react-native start",
     "test": "jest",
     "lint": "eslint --ext .tsx --ext .ts src/",
     "format": "prettier --check ./src",
@@ -50,6 +50,7 @@
     "react-native-fast-toast": "^2.2.0",
     "react-native-floating-label-input": "^1.3.5",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.3",
     "react-native-reanimated": "^2.0.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.18.1",

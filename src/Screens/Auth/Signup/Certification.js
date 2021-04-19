@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import React from 'react';
 import IMP from 'iamport-react-native';
 import { Button } from 'react-native';
 import GoToButton from '~/Components/GoToButton';
 import Loader from '~/Components/Loader';
 import { SignupProps } from '~/@types/auth';
-export const Certification: FC<SignupProps> = ({ navigation }) => {
+export const Certification = ({ navigation }) => {
   /* [필수입력] 본인인증 종료 후, 라우터를 변경하고 결과를 전달합니다. */
   const reqTest = {
     success: true,

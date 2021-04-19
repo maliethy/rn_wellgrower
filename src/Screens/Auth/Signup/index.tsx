@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useCallback, useState, useEffect, FC } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
-import { AuthProps } from '~/@types/auth';
+import { View, SafeAreaView } from 'react-native';
+import { SignupProps } from '~/@types/auth';
 import CircleCheckbox from '~/Components/CircleCheckbox';
 import NoBorderCheckbox from '~/Components/NoBorderCheckbox';
 import PageButton from '~/Components/PageButton';
 import BasicText from '~/Components/BasicText';
-import color from '~/styles';
+import { color } from '~/styles';
 import { ScaledSheet } from 'react-native-size-matters';
 
-const Signup: FC<AuthProps> = ({ navigation }) => {
+const Signup: FC<SignupProps> = ({ navigation }) => {
   const [toggleCheckBoxAll, setToggleCheckboxAll] = useState(true);
   const [toggleCheckBoxService, setToggleCheckboxService] = useState(true);
   const [toggleCheckBoxPrivateInfo, setToggleCheckboxPrivateInfo] = useState(true);
@@ -59,12 +59,13 @@ const Signup: FC<AuthProps> = ({ navigation }) => {
   const onSubmit = useCallback(async () => {
     try {
       console.log(
+        '약관동의',
         toggleCheckBoxService,
         toggleCheckBoxPrivateInfo,
         toggleCheckBoxLocation,
         toggleCheckBoxMarketing,
       );
-      navigation.navigate('CertificationTest');
+      navigation.navigate('Certification');
     } catch (err) {
       console.dir(err);
     }
@@ -194,6 +195,8 @@ const styles = ScaledSheet.create({
   },
   subContainer: {
     flex: 1,
+    width: '100%',
+    height: '100%',
     padding: '16@ms',
   },
   titleLayout: {

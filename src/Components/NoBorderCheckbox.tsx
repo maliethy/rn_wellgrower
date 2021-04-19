@@ -1,6 +1,6 @@
 import React, { ReactElement, useState, useCallback } from 'react';
 
-import color from '~/styles';
+import { color } from '~/styles';
 import { View } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckPrimary from '~/Assets/Icons/check_primary.svg';

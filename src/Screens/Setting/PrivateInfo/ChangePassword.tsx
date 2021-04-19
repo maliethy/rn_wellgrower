@@ -70,11 +70,6 @@ const ChangePassword: FC<SettingProps> = ({ route, navigation }): ReactElement =
 
   const onSubmit = useCallback(async () => {
     try {
-      // const emailRegex = /^(([^<>()\[\]\\.,;:\s~"]+(\.[^<>()\[\]\\.,;:\s~"]+)*)|(".+"))~((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      // if (!email || !email.trim()! || !emailRegex.test(email)!) {
-      //   return setErrorEmail('유효하지 않은 이메일입니다.');
-      // }
-
       if (beforePassword !== '1234') {
         return setNotAllowPassword(true);
       }

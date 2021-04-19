@@ -11,8 +11,8 @@ import UserAgreement from '~/Screens/Setting/CustomCenter/UserAgreement';
 import PersonalInfoPolicy from '~/Screens/Setting/CustomCenter/PersonalInfoPolicy';
 import LocationServicePolicy from '~/Screens/Setting/CustomCenter/LocationServicePolicy';
 import MarketingPolicy from '~/Screens/Auth/Signup/MarketingPolicy';
-import CertificationTest from '~/Screens/Auth/Signup/CertificationTest';
 import Certification from '~/Screens/Auth/Signup/Certification';
+import CertificationResult from '~/Screens/Auth/Signup/CertificationResult';
 import InputPassword from '~/Screens/Auth/Signup/InputPassword';
 import InputAddress from '~/Screens/Auth/Signup/InputAddress';
 import Welcome from '~/Screens/Auth/Signup/Welcome';
@@ -33,8 +33,8 @@ const signupScreens = {
   UserAgreement: UserAgreement,
   PersonalInfoPolicy: PersonalInfoPolicy,
   LocationServicePolicy: LocationServicePolicy,
-  CertificationTest: CertificationTest,
   Certification: Certification,
+  CertificationResult: CertificationResult,
   InputPassword: InputPassword,
   InputAddress: InputAddress,
   Welcome: Welcome,
@@ -46,7 +46,10 @@ const AuthNavigation: FC = () => {
       headerMode="screen"
       initialRouteName="Login"
       screenOptions={{
-        headerStyle: { shadowOpacity: 0 },
+        headerStyle: {
+          elevation: 0,
+          shadowOpacity: 0,
+        },
         cardStyle: styles.cardStyle,
       }}>
       {Object.entries({
@@ -60,6 +63,12 @@ const AuthNavigation: FC = () => {
             component={component}
             options={{
               headerTitle: '회원가입',
+              headerTitleStyle: {
+                lineHeight: 22,
+                letterSpacing: -0.6,
+                fontFamily: 'NotoSansKR-Regular',
+                fontSize: 16,
+              },
               headerTitleContainerStyle: {
                 flex: 1,
                 justifyContent: 'center',
