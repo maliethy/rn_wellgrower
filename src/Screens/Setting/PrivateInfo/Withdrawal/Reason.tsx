@@ -121,7 +121,7 @@ const Withdrawal: FC<SettingProps> = ({ navigation }) => {
               <AntDesign
                 name="closecircle"
                 color="grey"
-                size={'16@ms0.3'}
+                size={'16@ms'}
                 onPress={onResetDetailReason}
               />
             )}

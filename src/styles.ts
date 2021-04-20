@@ -3,8 +3,8 @@ import { ScaledSheet } from 'react-native-size-matters';
 
 export const InputIconCoord = styled.Text`
   position: absolute;
-  right: 0px;
-  top: 25px;
+  right: 5px;
+  top: 20px;
 `;
 type TextProps = {
   bold?: boolean;
@@ -54,7 +54,7 @@ export const color = {
   GrayscaleSecondaryText: 'rgba(5, 7, 9,0.58)',
   PrimaryDark: '#002b00',
   PrimaryLight: '#3d832f',
-  GrayscaleWash: 'rgba(254, 254, 254,.9)',
+  GrayscaleWash: '#fefefe',
   PrimaryP70: '#e7f4e6',
   PrimaryP700: '#2a8420',
   PrimaryP900: '#005500',
@@ -87,20 +87,49 @@ export const styles = ScaledSheet.create({
   buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: '6@ms0.3',
+    paddingVertical: '8@ms',
     backgroundColor: color.PrimaryP900,
     borderRadius: 4,
+  },
+  smallButtonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: '10@ms',
+    backgroundColor: color.PrimaryP900,
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.24,
+    shadowRadius: 7.49,
+    elevation: 12,
   },
   pageButtonContainer: {
     backgroundColor: color.PrimaryP900,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: '16@ms0.3',
+    paddingVertical: '16@ms',
   },
   buttonText: {
+    color: color.GrayscaleWash,
+    fontSize: '16@ms',
+    lineHeight: '22@ms',
+    letterSpacing: -0.6,
+    fontFamily: 'NotoSansKR-Regular',
+  },
+  buttonTextBold: {
     color: '#fff',
-    fontSize: '16@ms0.3',
-    lineHeight: '22@ms0.3',
+    fontSize: '16@ms',
+    lineHeight: '20@ms',
+    letterSpacing: -0.6,
+    fontFamily: 'NotoSansKR-Bold',
+  },
+  smallButtonText: {
+    color: color.GrayscaleWash,
+    fontSize: '12@ms',
+    lineHeight: '16@ms',
     letterSpacing: -0.6,
     fontFamily: 'NotoSansKR-Regular',
   },

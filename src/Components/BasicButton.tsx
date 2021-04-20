@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, View, Text } from 'react-native';
 import { color, styles } from '~/styles';
 
 type BasicButtonProps = {
@@ -10,14 +10,19 @@ type BasicButtonProps = {
 
 function BasicButton({ onPress, title, disabled }: BasicButtonProps): ReactElement {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[
-        styles.buttonContainer,
-        { backgroundColor: disabled ? color.GrayscaleDisabledText : color.PrimaryP900 },
-      ]}>
-      <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
+    <>
+      {disabled ? (
+        <TouchableWithoutFeedback onPress={onPress}>
+          <View style={[styles.buttonContainer, { backgroundColor: color.GrayscaleDisabledText }]}>
+            <Text style={styles.buttonText}>{title}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      ) : (
+        <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>{title}</Text>
+        </TouchableOpacity>
+      )}
+    </>
   );
 }
 export default BasicButton;

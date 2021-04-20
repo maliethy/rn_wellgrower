@@ -217,7 +217,7 @@ function ConsultForm({
                 <AntDesign
                   name="closecircle"
                   color="grey"
-                  size={'16@ms0.3'}
+                  size={'16@ms'}
                   onPress={onResetDirectInput}
                 />
               )}
@@ -284,12 +284,7 @@ function ConsultForm({
             />
             <CloseButtonCoord>
               {title && (
-                <AntDesign
-                  name="closecircle"
-                  color="grey"
-                  size={'16@ms0.3'}
-                  onPress={onResetTitle}
-                />
+                <AntDesign name="closecircle" color="grey" size={'16@ms'} onPress={onResetTitle} />
               )}
             </CloseButtonCoord>
           </View>
@@ -323,7 +318,7 @@ function ConsultForm({
                 <AntDesign
                   name="closecircle"
                   color="grey"
-                  size={'16@ms0.3'}
+                  size={'16@ms'}
                   onPress={onResetContent}
                 />
               )}

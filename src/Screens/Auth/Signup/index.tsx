@@ -82,20 +82,20 @@ const Signup: FC<SignupProps> = ({ navigation }) => {
         <View style={styles.titleLayout}>
           <BasicText
             bold={true}
-            size={'20@ms0.3'}
+            size={'20@ms'}
             color={color.PrimaryP900}
             text="약관동의"
             otherStyle={{ lineHeight: 28, marginBottom: 4 }}
           />
           <View>
             <BasicText
-              size={'16@ms0.3'}
+              size={'16@ms'}
               color={color.GrayscaleSecondaryText}
               text={'소중한 나의 작물이 잘 자랄 수 있게'}
               otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
             />
             <BasicText
-              size={'16@ms0.3'}
+              size={'16@ms'}
               color={color.GrayscaleSecondaryText}
               text={'잘키움으로 관리해보세요'}
               otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}

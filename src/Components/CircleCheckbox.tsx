@@ -39,9 +39,9 @@ function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
           style={{
             borderRadius: 100,
             borderWidth: 0,
-            padding: 4,
             justifyContent: 'center',
             alignItems: 'center',
+            backgroundColor: color.GrayscaleWash,
           }}>
           <View style={styles.unCheckedImageInnerView} />
         </View>
@@ -52,12 +52,12 @@ function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
 export default CircleCheckbox;
 const styles = ScaledSheet.create({
   checkedImageView: {
-    backgroundColor: color.PrimaryLight,
+    backgroundColor: color.PrimaryP900,
     borderRadius: 100,
-    borderColor: color.PrimaryLight,
+    borderColor: color.PrimaryP900,
     borderWidth: 1,
-    width: '16@ms',
-    height: '16@ms',
+    width: '20@ms',
+    height: '20@ms',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -65,8 +65,8 @@ const styles = ScaledSheet.create({
     borderRadius: 100,
     borderColor: color.GrayscaleBorder,
     borderWidth: 1,
-    width: '16@ms',
-    height: '16@ms',
+    width: '20@ms',
+    height: '20@ms',
   },
   iconSize: { width: '11@s', height: '11@s' },
   rightTextStyle: {

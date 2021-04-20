@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import { color, styles, ButtonText } from '~/styles';
+import { color, styles } from '~/styles';
 import { s, vs, ms, mvs } from 'react-native-size-matters';
 
 type PageButtonProps = {
@@ -17,7 +17,7 @@ function PageButton({ onPress, title, disabled }: PageButtonProps): ReactElement
         styles.pageButtonContainer,
         { backgroundColor: disabled ? color.GrayscaleDisabledText : color.PrimaryP900 },
       ]}>
-      <Text style={styles.buttonText}>{title}</Text>
+      <Text style={styles.buttonTextBold}>{title}</Text>
     </TouchableOpacity>
   );
 }

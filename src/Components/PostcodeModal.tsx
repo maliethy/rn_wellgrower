@@ -4,14 +4,16 @@ import { View, Text, Button } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
 import Postcode from 'react-native-daum-postcode';
 
-function PostcodeModal({ navigation }) {
+function PostcodeModal({ route, navigation }) {
+  const { comeFrom } = route.params;
+
   const [postcode, setPostcode] = useState<number | null>(null);
   const [addr, setAddr] = useState('');
   const [extraAddr, setExtraAddr] = useState('');
 
   useEffect(() => {
     if (postcode) {
-      navigation.navigate('ChangeAddress', {
+      navigation.navigate(comeFrom, {
         postcode: postcode,
         addr: addr,
         extraAddr: extraAddr,
@@ -52,7 +54,6 @@ function PostcodeModal({ navigation }) {
         }}
         onError={(err) => console.dir(err)}
       />
-      <Button onPress={() => navigation.goBack()} title="돌아가기" />
     </View>
   );
 }

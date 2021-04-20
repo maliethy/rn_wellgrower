@@ -81,7 +81,10 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
                   editable={false}
                 />
               </View>
-              <Button onPress={() => navigation.navigate('PostcodeModal')} title="찾기" />
+              <Button
+                onPress={() => navigation.navigate('PostcodeModal', { comeFrom: 'ChangeAddress' })}
+                title="찾기"
+              />
             </View>
             <View style={styles.inputLayout}>
               <TextInput
@@ -104,7 +107,7 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
                 <AntDesign
                   name="closecircle"
                   color="grey"
-                  size={'16@ms0.3'}
+                  size={'16@ms'}
                   onPress={onResetDetailedAddr}
                 />
               )}

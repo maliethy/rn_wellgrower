@@ -31,10 +31,10 @@ const BasicModal = ({
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={styles.textView}>
-            <BasicText bold={true} size={'16@ms0.3'} otherStyle={styles.modalTitle} text={title} />
+            <BasicText bold={true} size={'16@ms'} otherStyle={styles.modalTitle} text={title} />
             <BasicText
               color={color.GrayscaleSecondaryText}
-              size={'14@ms0.3'}
+              size={'14@ms'}
               text={text}
               otherStyle={styles.modalText}
             />
@@ -44,7 +44,7 @@ const BasicModal = ({
             <BasicText
               otherStyle={styles.cancelTextStyle}
               color={'#fff'}
-              size={'16@ms0.3'}
+              size={'16@ms'}
               text={buttonText}
             />
           </Pressable>
@@ -85,7 +85,7 @@ const styles = ScaledSheet.create({
   },
 
   cancelTextStyle: {
-    fontSize: '20@ms0.3',
+    fontSize: '20@ms',
     textAlign: 'center',
   },
   modalTitle: {
@@ -97,7 +97,7 @@ const styles = ScaledSheet.create({
   },
 
   buttonText: {
-    fontSize: '20@ms0.3',
+    fontSize: '20@ms',
   },
 });
 

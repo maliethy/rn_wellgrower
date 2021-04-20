@@ -34,7 +34,7 @@ import { s, vs, ms, mvs } from 'react-native-size-matters';
 import PageButton from '~/Components/PageButton';
 
 const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
-  const { user_phone }: { user_phone: string | null } = route.params;
+  const { user_phone } = route.params;
   const { data: userData, error, revalidate, mutate } = useSWR(`${back_url}/user`, fetcherGet, {
     dedupingInterval: 30 * 60 * 60 * 1000,
   }); //dedupingInterval: 30분
@@ -44,38 +44,38 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
   const [passwordCheck, onChangePasswordCheck, onResetPasswordCheck, setPasswordCheck] = useInput(
     '',
   );
-  const [accountLock, setAccountLock] = useState(false);
-
   const [passwordError, setPasswordError] = useState(false);
   const [passwordCheckError, setPasswordCheckError] = useState(false);
-
-  const [loginError, setLoginError] = useState(false);
   const [userName, setUserName] = useState('김세경');
-
+  const [isSecureTextPassword, setIsSecureTextPassword] = useState(true);
+  const [isSecureTextPasswordCheck, setIsSecureTextPasswordCheck] = useState(true);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
   const [isFocusedPasswordCheck, setIsFocusedPasswordCheck] = useState(false);
 
-  const ref_input: Array<React.RefObject<TextInput>> = [];
+  const ref_input = [];
   ref_input[0] = useRef(null);
   ref_input[1] = useRef(null);
 
-  const phoneLengthChecked =
-    (phone.charAt(2) === '1' && 12 <= phone.length && phone.length < 14) ||
-    (phone.charAt(2) === '0' && 12 <= phone.length && phone.length < 14);
-
   const passwordValidation = useCallback(() => {
-    if (!password || !password.trim()) {
-      setPasswordError(true);
-    } else {
+    const passwordRules = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+    if (passwordRules.test(password)) {
       setPasswordError(false);
+    } else {
+      setPasswordError(true);
     }
   }, [password]);
   const passwordCheckValidation = useCallback(() => {
-    if (!passwordCheck || !passwordCheck.trim() || password !== passwordError) {
+    if (password !== passwordError) {
       setPasswordCheckError(true);
     } else {
       setPasswordCheckError(false);
     }
+  }, [password, passwordCheck]);
+  useEffect(() => {
+    passwordValidation();
+  }, [password]);
+  useEffect(() => {
+    passwordCheckValidation();
   }, [passwordCheck]);
   useEffect(() => {
     autoHypenTel(phone, phone, setPhone);
@@ -87,6 +87,7 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
       // setLoginError(true);
 
       setPassword('');
+      navigation.navigate('InputAddress');
     } catch (err) {
       console.dir(err);
     }
@@ -101,7 +102,7 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
       Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
     };
   }, [Keyboard]);
-  const _keyboardDidShow = (e: { endCoordinates: { height: number } }) => {
+  const _keyboardDidShow = (e) => {
     setKeyboardH(e.endCoordinates.height);
   };
   const _keyboardDidHide = () => {
@@ -113,24 +114,18 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
       flex: 1,
       width: '100%',
       height: '100%',
+      justifyContent: 'space-between',
+      flexDirection: 'column',
+    },
+    subContainer: {
+      flex: 1,
       padding: '16@ms',
-    },
-    logo: {
-      width: '72@s',
-      height: '72@vs',
-    },
-    logoLayout: {
-      flex: 2,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: '15%',
-      paddingBottom: '5%',
     },
     formLayout: {
       flex: 1,
     },
     infoLayout: {
-      fontSize: '12@ms0.3',
+      fontSize: '12@ms',
       textAlign: 'center',
       marginBottom: '50@ms',
     },
@@ -140,17 +135,21 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
       marginBottom: '42@vs',
       marginTop: '12@vs',
     },
+    inputContainer: {
+      marginBottom: '38@vs',
+    },
     inputRowStyle: {
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'row',
-      marginBottom: '38@vs',
-    },
-    buttonAreaLayout: {
-      marginBottom: '50@vs',
     },
     emptyViewLayout: {
       height: '16@vs',
+    },
+    buttonAreaLayout: {
+      flex: 1,
+
+      justifyContent: 'flex-end',
     },
     iconSize: { width: '24@ms', height: '24@ms' },
   });
@@ -164,126 +163,136 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
       <KeyboardAvoidingView
         behavior="position"
         style={styles.container}
-        keyboardVerticalOffset={-250}
+        keyboardVerticalOffset={-90}
         enabled>
         <ScrollView keyboardShouldPersistTaps="never">
-          <View style={{ marginTop: 19, marginBottom: 24 }}>
-            <BasicText
-              bold={true}
-              size={'20@ms0.3'}
-              color={color.PrimaryP900}
-              text={`${userName}님 안녕하세요`}
-              otherStyle={{ lineHeight: 28, marginBottom: 4 }}
-            />
-            <BasicText
-              size={'16@ms0.3'}
-              color={color.GrayscaleSecondaryText}
-              text={'잘키움은 휴대폰 번호를 아이디로 사용합니다'}
-              otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
-            />
+          <View style={styles.subContainer}>
+            <View style={{ marginTop: 19, marginBottom: 24, flex: 2 }}>
+              <BasicText
+                bold={true}
+                size={'20@ms'}
+                color={color.PrimaryP900}
+                text={`${userName}님 안녕하세요`}
+                otherStyle={{ lineHeight: 28, marginBottom: 4 }}
+              />
+              <BasicText
+                size={'16@ms'}
+                color={color.GrayscaleSecondaryText}
+                text={'잘키움은 휴대폰 번호를 아이디로 사용합니다'}
+                otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+              />
+            </View>
+            <View style={styles.formLayout}>
+              <View style={styles.inputContainer}>
+                <View style={styles.inputRowStyle}>
+                  <FloatingLabelInput value={phone} label="전화번호" editable={false} />
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.inputRowStyle}>
+                  <FloatingLabelInput
+                    value={password}
+                    onChangeText={onChangePassword}
+                    ref={ref_input[0]}
+                    onFocus={() => {
+                      setIsFocusedPassword(true);
+                    }}
+                    onBlur={() => {
+                      setIsFocusedPassword(false);
+                    }}
+                    isFocused={isFocusedPassword}
+                    onSubmitEditing={() => {
+                      passwordValidation();
+                    }}
+                    autoCorrect={false}
+                    label="비밀번호"
+                    autoCapitalize={'none'}
+                    returnKeyType={'done'}
+                    maxLength={16}
+                    secureTextEntry={isSecureTextPassword}
+                  />
+                  <InputIconCoord>
+                    <TouchableOpacity
+                      style={{ width: 30, height: 30 }}
+                      onPress={() => setIsSecureTextPassword((prev) => !prev)}>
+                      {isSecureTextPassword ? (
+                        <VisibilityOff width={ms(27)} height={ms(27)} />
+                      ) : (
+                        <VisibilityOn width={ms(27)} height={ms(27)} />
+                      )}
+                    </TouchableOpacity>
+                  </InputIconCoord>
+                </View>
+                {passwordError ? (
+                  <BasicText
+                    otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+                    color={color.StatusFail}
+                    text="8자리 이상 16자리 이하, 영문+숫자+특수문자 조합"
+                  />
+                ) : (
+                  <View style={styles.emptyViewLayout} />
+                )}
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.inputRowStyle}>
+                  <FloatingLabelInput
+                    value={passwordCheck}
+                    onChangeText={onChangePasswordCheck}
+                    ref={ref_input[1]}
+                    onFocus={() => {
+                      setIsFocusedPasswordCheck(true);
+                    }}
+                    onBlur={() => {
+                      setIsFocusedPasswordCheck(false);
+                    }}
+                    isFocused={isFocusedPasswordCheck}
+                    onSubmitEditing={() => {
+                      passwordCheckValidation();
+                    }}
+                    autoCorrect={false}
+                    label="비밀번호 재입력"
+                    autoCapitalize={'none'}
+                    returnKeyType={'done'}
+                    maxLength={16}
+                    secureTextEntry={isSecureTextPasswordCheck}
+                  />
+                  <InputIconCoord>
+                    <TouchableOpacity
+                      style={{ width: 30, height: 30 }}
+                      onPress={() => setIsSecureTextPasswordCheck((prev) => !prev)}>
+                      {isSecureTextPasswordCheck ? (
+                        <VisibilityOff width={ms(27)} height={ms(27)} />
+                      ) : (
+                        <VisibilityOn width={ms(27)} height={ms(27)} />
+                      )}
+                    </TouchableOpacity>
+                  </InputIconCoord>
+                </View>
+                {passwordCheckError ? (
+                  <BasicText
+                    otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
+                    color={color.StatusFail}
+                    text="비밀번호가 동일하지 않습니다"
+                  />
+                ) : (
+                  <View style={styles.emptyViewLayout} />
+                )}
+              </View>
+            </View>
           </View>
-          <View style={styles.formLayout}>
-            <View style={styles.inputRowStyle}>
-              <FloatingLabelInput value={phone} label="전화번호" editable={false} />
-            </View>
-            <View style={styles.inputRowStyle}>
-              <FloatingLabelInput
-                isPassword
-                value={password}
-                onChangeText={onChangePassword}
-                ref={ref_input[0]}
-                onFocus={() => {
-                  setIsFocusedPassword(true);
-                }}
-                onBlur={() => {
-                  setIsFocusedPassword(false);
-                }}
-                isFocused={isFocusedPassword}
-                onSubmitEditing={() => {
-                  passwordValidation();
-                }}
-                autoCorrect={false}
-                label="비밀번호"
-                autoCapitalize={'none'}
-                returnKeyType={'done'}
-                maxLength={16}
-                showPasswordContainerStyles={{
-                  width: ms(24),
-                  height: ms(24),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: vs(25),
-                  marginRight: 9,
-                }}
-                customShowPasswordComponent={<VisibilityOff style={styles.iconSize} />}
-                customHidePasswordComponent={<VisibilityOn style={styles.iconSize} />}
-              />
-            </View>
-            {passwordError ? (
-              <BasicText
-                otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
-                color={color.StatusFail}
-                text="8자리 이상 16자리 이하, 영문+숫자+특수문자 조합"
-              />
+          <View style={styles.buttonAreaLayout}>
+            {passwordError === false ||
+            passwordCheckError === false ||
+            !password ||
+            !password.trim() ||
+            !passwordCheck ||
+            !passwordCheck.trim() ? (
+              <PageButton disabled={true} title="다음" onPress={onSubmit} />
             ) : (
-              <View style={styles.emptyViewLayout} />
-            )}
-            <View style={styles.inputRowStyle}>
-              <FloatingLabelInput
-                isPassword
-                value={passwordCheck}
-                onChangeText={onChangePasswordCheck}
-                ref={ref_input[1]}
-                onFocus={() => {
-                  setIsFocusedPasswordCheck(true);
-                }}
-                onBlur={() => {
-                  setIsFocusedPasswordCheck(false);
-                }}
-                isFocused={isFocusedPasswordCheck}
-                onSubmitEditing={() => {
-                  passwordCheckValidation();
-                }}
-                autoCorrect={false}
-                label="비밀번호 재입력"
-                autoCapitalize={'none'}
-                returnKeyType={'done'}
-                maxLength={16}
-                showPasswordContainerStyles={{
-                  width: ms(24),
-                  height: ms(24),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: vs(25),
-                  marginRight: 9,
-                }}
-                customShowPasswordComponent={<VisibilityOff style={styles.iconSize} />}
-                customHidePasswordComponent={<VisibilityOn style={styles.iconSize} />}
-              />
-            </View>
-            {passwordCheckError ? (
-              <BasicText
-                otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
-                color={color.StatusFail}
-                text="비밀번호가 동일하지 않습니다"
-              />
-            ) : (
-              <View style={styles.emptyViewLayout} />
+              <PageButton title="다음" onPress={onSubmit} />
             )}
           </View>
         </ScrollView>
-        <View>
-          {passwordError === false ||
-          passwordCheckError === false ||
-          !password ||
-          !password.trim() ||
-          !passwordCheck ||
-          !passwordCheck.trim() ? (
-            <PageButton disabled={true} title="동의하기" onPress={onSubmit} />
-          ) : (
-            <PageButton title="동의하기" onPress={onSubmit} />
-          )}
-        </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

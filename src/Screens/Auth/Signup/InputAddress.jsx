@@ -13,7 +13,7 @@ import {
 
 import axios from 'axios';
 import useSWR from 'swr';
-import fetcher from '~/utils/fetcher';
+import fetcher from '~/Utils/fetcher';
 import produce from 'immer';
 import useInput from '~/Utils/useInput';
 import GoToButton from '~/Components/GoToButton';
@@ -23,7 +23,7 @@ import Loader from '~/Components/Loader';
 import { SettingProps, Route } from '~/@types/setting';
 
 // const back_url = "http://192.168.0.20:3000/api";
-const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement => {
+const InputAddress = ({ route, navigation }) => {
   // const { data: userData, mutate: mutateUser, error } = useSWR(
   //   `${back_url}/users`,
   //   fetcher
@@ -31,7 +31,7 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
   const { postcode, addr, extraAddr, title } = route.params || '';
   const [addrValue, setAddrValue] = useState('');
   const [detailedAddr, onChangeDetailedAddr, onResetDetailedAddr, setDetailedAddr] = useInput('');
-  const ref_input = useRef<TextInput>(null);
+  const ref_input = useRef(null);
   useEffect(() => {
     if (postcode) {
       ref_input.current?.focus();
@@ -48,7 +48,11 @@ const ChangeAddress: FC<SettingProps> = ({ route, navigation }): ReactElement =>
     }
   }, [postcode, addr, extraAddr]);
   useEffect(() => {
-    addr ? setAddrValue(`${addr}(${extraAddr})`) : setAddrValue('');
+    addr && extraAddr
+      ? setAddrValue(`${addr}(${extraAddr})`)
+      : addr
+      ? setAddrValue(addr)
+      : setAddrValue('');
   }, [addr]);
 
   // if (userData === undefined) {
@@ -167,14 +171,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 36,
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+  },
   infoLayout: {
     flex: 1,
     width: '100%',
     height: '100%',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
   },
   borderContainer: {
     flexDirection: 'column',
@@ -190,4 +194,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChangeAddress;
+export default InputAddress;

@@ -24,12 +24,12 @@ function BasicText({
 }: BasicTextProps): ReactElement {
   const styles = ScaledSheet.create({
     textStyle: {
-      fontSize: size ? size : '12@ms0.3',
+      fontSize: size ? size : '12@ms',
       color: color ? color : BasicColor.GrayscalePrimaryText,
     },
   });
   return (
-    <BasicTextStyle bold={bold} ios={ios} style={[otherStyle, styles.textStyle]} onPress={onPress}>
+    <BasicTextStyle bold={bold} ios={ios} style={[styles.textStyle, otherStyle]} onPress={onPress}>
       {text}
     </BasicTextStyle>
   );

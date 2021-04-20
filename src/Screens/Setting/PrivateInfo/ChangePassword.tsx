@@ -126,7 +126,7 @@ const ChangePassword: FC<SettingProps> = ({ route, navigation }): ReactElement =
                   <AntDesign
                     name="closecircle"
                     color="grey"
-                    size={'16@ms0.3'}
+                    size={'16@ms'}
                     onPress={onResetBeforePassword}
                   />
                 )}
@@ -160,7 +160,7 @@ const ChangePassword: FC<SettingProps> = ({ route, navigation }): ReactElement =
                   <AntDesign
                     name="closecircle"
                     color="grey"
-                    size={'16@ms0.3'}
+                    size={'16@ms'}
                     onPress={onResetAfterPassword}
                   />
                 )}
@@ -189,7 +189,7 @@ const ChangePassword: FC<SettingProps> = ({ route, navigation }): ReactElement =
                   <AntDesign
                     name="closecircle"
                     color="grey"
-                    size={'16@ms0.3'}
+                    size={'16@ms'}
                     onPress={onResetPasswordCheck}
                   />
                 )}

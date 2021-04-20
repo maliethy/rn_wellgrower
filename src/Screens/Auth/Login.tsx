@@ -35,6 +35,7 @@ import { color } from '~/styles';
 import Loader from '~/Components/Loader';
 import { AuthProps } from '~/@types/auth';
 import SquareCheckbox from '~/Components/SquareCheckbox';
+
 import { FloatingLabelInput } from 'react-native-floating-label-input';
 import { s, vs, ms, mvs } from 'react-native-size-matters';
 import useOrientation from '~/Utils/useOrientation';
@@ -59,8 +60,8 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isFocusedPhone, setIsFocusedPhone] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+  const [isSecureText, setIsSecureText] = useState(true);
   const orientation = useOrientation();
-
   const ref_input: Array<React.RefObject<TextInput>> = [];
   ref_input[0] = useRef(null);
   ref_input[1] = useRef(null);
@@ -197,8 +198,8 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       padding: '16@ms',
     },
     logo: {
-      width: '72@s',
-      height: '72@vs',
+      width: '90@ms',
+      height: '90@ms',
     },
     logoLayout: {
       flex: 2,
@@ -211,7 +212,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
       flex: 2,
     },
     infoLayout: {
-      fontSize: '12@ms0.3',
+      fontSize: '12@ms',
       textAlign: 'center',
       marginBottom: '50@ms',
     },
@@ -235,7 +236,6 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
     emptyViewLayout: {
       height: '16@vs',
     },
-    iconSize: { width: '24@ms', height: '24@ms' },
   });
 
   // if (userData === undefined) {
@@ -282,11 +282,11 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                     rightComponent={
                       phoneLengthChecked ? (
                         <InputIconCoord>
-                          <CheckBlue style={styles.iconSize} />
+                          <CheckBlue width={ms(27)} height={ms(27)} />
                         </InputIconCoord>
                       ) : phoneError ? (
                         <InputIconCoord>
-                          <CheckRed style={styles.iconSize} />
+                          <CheckRed width={ms(27)} height={ms(27)} />
                         </InputIconCoord>
                       ) : null
                     }
@@ -304,7 +304,19 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
               </View>
               <View style={styles.inputRowStyle}>
                 <FloatingLabelInput
-                  isPassword
+                  inputStyles={{
+                    color: '#000',
+                    textAlignVertical: 'center',
+                    fontSize: ms(18),
+                    paddingTop: vs(24),
+                    paddingBottom: 0,
+                    minHeight: 0,
+                    lineHeight: 15,
+                    letterSpacing: -0.6,
+                    fontFamily: 'NotoSansKR-Regular',
+                    position: 'relative',
+                    top: -4,
+                  }}
                   value={password}
                   onChangeText={onChangePassword}
                   ref={ref_input[1]}
@@ -320,21 +332,25 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                   }}
                   autoCorrect={false}
                   label="비밀번호"
+                  disableFullscreenUI={true}
                   autoCapitalize={'none'}
                   returnKeyType={'done'}
                   maxLength={16}
-                  showPasswordContainerStyles={{
-                    width: ms(24),
-                    height: ms(24),
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: vs(25),
-                    marginRight: 9,
-                  }}
-                  customShowPasswordComponent={<VisibilityOff style={styles.iconSize} />}
-                  customHidePasswordComponent={<VisibilityOn style={styles.iconSize} />}
+                  secureTextEntry={isSecureText}
                 />
+                <InputIconCoord>
+                  <TouchableOpacity
+                    style={{ width: 30, height: 30 }}
+                    onPress={() => setIsSecureText((prev) => !prev)}>
+                    {isSecureText ? (
+                      <VisibilityOff width={ms(27)} height={ms(27)} />
+                    ) : (
+                      <VisibilityOn width={ms(27)} height={ms(27)} />
+                    )}
+                  </TouchableOpacity>
+                </InputIconCoord>
               </View>
+
               {passwordError ? (
                 <BasicText
                   otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
@@ -352,6 +368,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                 />
                 <View>
                   <BasicText
+                    color={color.GrayscaleSecondaryText}
                     otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
                     onPress={() => navigation.navigate('FindPassword')}
                     text="비밀번호 찾기"
@@ -395,7 +412,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
             {keyboardH ? null : (
               <View style={styles.inputRowStyle}>
                 <View style={{ marginRight: 3 }}>
-                  <BasicText text="아직 계정이 없어요" />
+                  <BasicText color={color.GrayscaleSecondaryText} text="아직 계정이 없어요" />
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
                   <BasicText bold={true} text="회원가입하기" color={color.PrimaryLight} />
@@ -444,11 +461,11 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                   rightComponent={
                     phoneLengthChecked ? (
                       <InputIconCoord>
-                        <CheckBlue style={styles.iconSize} />
+                        <CheckBlue width={ms(27)} height={ms(27)} />
                       </InputIconCoord>
                     ) : phoneError ? (
                       <InputIconCoord>
-                        <CheckRed style={styles.iconSize} />
+                        <CheckRed width={ms(27)} height={ms(27)} />
                       </InputIconCoord>
                     ) : null
                   }
@@ -486,18 +503,30 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                 autoCapitalize={'none'}
                 returnKeyType={'done'}
                 maxLength={16}
-                showPasswordContainerStyles={{
-                  width: ms(24),
-                  height: ms(24),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: vs(25),
-                  marginRight: 9,
-                }}
-                customShowPasswordComponent={<VisibilityOff style={styles.iconSize} />}
-                customHidePasswordComponent={<VisibilityOn style={styles.iconSize} />}
+                secureTextEntry={isSecureText}
+                // showPasswordContainerStyles={{
+                //   width: ms(24),
+                //   height: ms(24),
+                //   justifyContent: 'center',
+                //   alignItems: 'center',
+                //   marginTop: vs(25),
+                //   marginRight: 9,
+                // }}
+                // customShowPasswordComponent={<VisibilityOff width={ms(27)} height={ms(27)} />}
+                // customHidePasswordComponent={<VisibilityOn width={ms(27)} height={ms(27)} />}
               />
             </View>
+            <InputIconCoord>
+              <TouchableOpacity
+                style={{ width: 24, height: 24 }}
+                onPress={() => setIsSecureText((prev) => !prev)}>
+                {isSecureText ? (
+                  <VisibilityOff width={ms(27)} height={ms(27)} />
+                ) : (
+                  <VisibilityOn width={ms(27)} height={ms(27)} />
+                )}
+              </TouchableOpacity>
+            </InputIconCoord>
             {passwordError ? (
               <BasicText
                 otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}

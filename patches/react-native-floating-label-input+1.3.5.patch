@@ -1,0 +1,129 @@
+diff --git a/node_modules/react-native-floating-label-input/src/index.tsx b/node_modules/react-native-floating-label-input/src/index.tsx
+index 7146847..11f6d71 100644
+--- a/node_modules/react-native-floating-label-input/src/index.tsx
++++ b/node_modules/react-native-floating-label-input/src/index.tsx
+@@ -90,7 +90,7 @@ export interface Props extends TextInputProps {
+   leftComponent?: JSX.Element;
+   /** Add right component to your input. Be aware if using the input as password this component is positioned before the show/hide component */
+   rightComponent?: JSX.Element;
+-  /** Set custom animation duration. Default 300 ms */
++  /** Set custom animation duration. Default 100 ms */
+   animationDuration?: number;
+ }
+ 
+@@ -170,7 +170,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+     currencyDivider,
+     maskType,
+     onChangeText,
+-    secureTextEntry,
++    // secureTextEntry,
+     customHidePasswordComponent,
+     customShowPasswordComponent,
+     isFocused,
+@@ -310,7 +310,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+       ReactAnimated.parallel([
+         // @ts-ignore
+         timing(leftAnimated, {
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+           toValue: customLabelStyles.leftFocused
+             ? customLabelStyles.leftFocused
+@@ -321,7 +321,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+           toValue: customLabelStyles.fontSizeFocused
+             ? customLabelStyles.fontSizeFocused
+             : 10,
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+         }),
+         // @ts-ignore
+@@ -336,7 +336,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+                 : customLabelStyles.fontSizeBlurred
+                 ? customLabelStyles.fontSizeBlurred
+                 : 14),
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+         }),
+       ]).start();
+@@ -348,7 +348,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+       ReactAnimated.parallel([
+         // @ts-ignore
+         timing(leftAnimated, {
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+           toValue: customLabelStyles.leftFocused
+             ? customLabelStyles.leftFocused
+@@ -359,7 +359,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+           toValue: customLabelStyles.fontSizeFocused
+             ? customLabelStyles.fontSizeFocused
+             : 10,
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+         }),
+         // @ts-ignore
+@@ -374,7 +374,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+                 : customLabelStyles.fontSizeBlurred
+                 ? customLabelStyles.fontSizeBlurred
+                 : 14),
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+         }),
+       ]).start();
+@@ -387,7 +387,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+       ReactAnimated.parallel([
+         // @ts-ignore
+         timing(leftAnimated, {
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+           toValue: customLabelStyles.leftBlurred
+             ? customLabelStyles.leftBlurred
+@@ -398,7 +398,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+           toValue: customLabelStyles.fontSizeBlurred
+             ? customLabelStyles.fontSizeBlurred
+             : 14,
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+         }),
+         // @ts-ignore
+@@ -406,7 +406,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+           toValue: customLabelStyles.topBlurred
+             ? customLabelStyles.topBlurred
+             : 0,
+-          duration: animationDuration ? animationDuration : 300,
++          duration: animationDuration ? animationDuration : 100,
+           easing: EasingNode.linear,
+         }),
+       ]).start();
+@@ -698,9 +698,9 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
+             <TextInput
+               value={value}
+               onSubmitEditing={onSubmitEditing}
+-              secureTextEntry={
+-                isPassword !== undefined ? isPassword && secureText : false
+-              }
++              // secureTextEntry={
++              //   isPassword !== undefined ? isPassword && secureText : false
++              // }
+               onFocus={onFocus !== undefined ? onFocus : handleFocus}
+               onBlur={onBlur !== undefined ? onBlur : handleBlur}
+               ref={inputRef}
+diff --git a/node_modules/react-native-floating-label-input/src/styles.tsx b/node_modules/react-native-floating-label-input/src/styles.tsx
+index 1529c9d..2903198 100644
+--- a/node_modules/react-native-floating-label-input/src/styles.tsx
++++ b/node_modules/react-native-floating-label-input/src/styles.tsx
+@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
+     justifyContent: 'center',
+   },
+   input: {
+-    minHeight: 28,
++    // minHeight: 28,
+     color: '#000',
+     paddingVertical: 0,
+     flex: 1,

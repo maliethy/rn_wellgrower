@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { TouchableOpacity } from 'react-native';
+
 import Login from '~/Screens/Auth/Login';
 import FindPassword from '~/Screens/Auth/FindPassword';
 import CustomCenter from '~/Screens/Auth/CustomCenter';
@@ -16,10 +16,11 @@ import CertificationResult from '~/Screens/Auth/Signup/CertificationResult';
 import InputPassword from '~/Screens/Auth/Signup/InputPassword';
 import InputAddress from '~/Screens/Auth/Signup/InputAddress';
 import Welcome from '~/Screens/Auth/Signup/Welcome';
-
+import PostcodeModal from '~/Components/PostcodeModal';
 import NavBack from '~/Assets/Icons/nav_back.svg';
 import HeaderCloseButton from '~/Components/HeaderCloseButton';
 import { ScaledSheet } from 'react-native-size-matters';
+import { s, vs, ms, mvs } from 'react-native-size-matters';
 
 const AuthStack = createStackNavigator();
 const authScreens = {
@@ -37,6 +38,7 @@ const signupScreens = {
   CertificationResult: CertificationResult,
   InputPassword: InputPassword,
   InputAddress: InputAddress,
+  PostcodeModal: PostcodeModal,
   Welcome: Welcome,
 };
 
@@ -50,6 +52,7 @@ const AuthNavigation: FC = () => {
           elevation: 0,
           shadowOpacity: 0,
         },
+
         cardStyle: styles.cardStyle,
       }}>
       {Object.entries({
@@ -67,12 +70,14 @@ const AuthNavigation: FC = () => {
                 lineHeight: 22,
                 letterSpacing: -0.6,
                 fontFamily: 'NotoSansKR-Regular',
-                fontSize: 16,
+                fontSize: ms(16),
+                // paddingVertical: 16,
               },
               headerTitleContainerStyle: {
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
+                paddingVertical: ms(16),
               },
               headerBackImage: () => <NavBack style={styles.iconSize} />,
               headerBackTitle: ' ',
@@ -88,8 +93,8 @@ const AuthNavigation: FC = () => {
 export default AuthNavigation;
 const styles = ScaledSheet.create({
   cardStyle: { backgroundColor: '#fff' },
-  iconSize: { width: '16@ms', height: '16@ms' },
+  iconSize: { width: ms(16), height: ms(16) },
   headerRightContainerStyle: {
-    padding: '16@ms',
+    padding: ms(16),
   },
 });

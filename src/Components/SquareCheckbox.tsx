@@ -17,6 +17,7 @@ function SquareCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
       style={{
         width: 90,
         height: '100%',
+        back,
       }}
       rightTextStyle={styles.rightTextStyle}
       rightText={text}
@@ -26,10 +27,13 @@ function SquareCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
       checkedImage={
         <View
           style={{
-            backgroundColor: color.PrimaryLight,
+            backgroundColor: color.PrimaryP900,
             borderRadius: 3,
-            borderColor: color.PrimaryLight,
+            borderColor: color.PrimaryP900,
             borderWidth: 1,
+            position: 'absolute',
+            top: 0,
+            left: 0,
           }}>
           <CheckWhite style={styles.iconSize} />
         </View>
@@ -51,10 +55,13 @@ export default SquareCheckbox;
 const styles = ScaledSheet.create({
   rightTextStyle: {
     color: color.PrimaryDark,
-    fontSize: '12@ms0.3',
+    fontSize: '12@ms',
     fontFamily: 'NotoSansKR-Regular',
     lineHeight: 16,
     letterSpacing: -0.6,
+    position: 'absolute',
+    top: 2,
+    left: 13,
   },
   iconSize: { width: '16@ms', height: '16@ms' },
 });
