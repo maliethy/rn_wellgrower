@@ -27,17 +27,16 @@ function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
       isChecked={isChecked}
       checkedImage={
         <View style={styles.checkedImageView}>
-          <CheckPrimary width={ms(27)} height={ms(27)} />
+          <View style={{ position: 'relative', top: 0, left: 0 }}>
+            <CheckPrimary style={styles.iconSize} />
+          </View>
         </View>
       }
       unCheckedImage={
         <View
           style={{
-            borderRadius: 100,
+            borderRadius: 3,
             borderWidth: 0,
-            padding: 4,
-            justifyContent: 'center',
-            alignItems: 'center',
             backgroundColor: color.GrayscaleWash,
           }}>
           <View style={styles.unCheckedImageInnerView} />
@@ -48,28 +47,30 @@ function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
 }
 export default CircleCheckbox;
 const styles = ScaledSheet.create({
-  rightTextStyle: {
-    color: color.GrayscaleSecondaryText,
-    fontSize: '14@ms',
-    lineHeight: '18@ms',
-    letterSpacing: -0.6,
-    marginLeft: '17@ms',
-    fontFamily: 'NotoSansKR-Regular',
-  },
   checkedImageView: {
     borderRadius: 100,
     borderWidth: 0,
-    width: '26@ms',
-    height: '26@ms',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    width: '20@ms',
+    height: '20@ms',
   },
   unCheckedImageInnerView: {
     borderRadius: 100,
     borderColor: color.GrayscaleBorder,
     borderWidth: 1,
-    width: '18@ms',
-    height: '18@ms',
+    width: '20@ms',
+    height: '20@ms',
   },
-  iconSize: { width: '16@ms', height: '16@ms' },
+  iconSize: { width: '11@ms', height: '11@ms', position: 'absolute', top: -3, left: -12 },
+  rightTextStyle: {
+    color: color.GrayscaleSecondaryText,
+    fontSize: '14@ms',
+    lineHeight: '18@ms',
+    letterSpacing: -0.6,
+    fontFamily: 'NotoSansKR-Regular',
+    position: 'absolute',
+    top: 2,
+    left: 24,
+  },
 });

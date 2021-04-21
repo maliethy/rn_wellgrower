@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckWhite from '~/Assets/Icons/check_white.svg';
 import { ScaledSheet } from 'react-native-size-matters';
+import { s, vs, ms, mvs } from 'react-native-size-matters';
 
 type checkboxProps = {
   isChecked: boolean;
@@ -25,13 +26,8 @@ function CircleCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
       checkBoxColor={color.StatusFail}
       isChecked={isChecked}
       checkedImage={
-        <View
-          style={{
-            padding: 4,
-          }}>
-          <View style={styles.checkedImageView}>
-            <CheckWhite style={styles.iconSize} />
-          </View>
+        <View style={styles.checkedImageView}>
+          <CheckWhite style={styles.iconSize} />
         </View>
       }
       unCheckedImage={
@@ -53,8 +49,8 @@ export default CircleCheckbox;
 const styles = ScaledSheet.create({
   checkedImageView: {
     backgroundColor: color.PrimaryP900,
-    borderRadius: 100,
     borderColor: color.PrimaryP900,
+    borderRadius: 100,
     borderWidth: 1,
     width: '20@ms',
     height: '20@ms',
@@ -70,8 +66,9 @@ const styles = ScaledSheet.create({
   },
   iconSize: { width: '11@s', height: '11@s' },
   rightTextStyle: {
-    color: color.PrimaryDark,
-    fontSize: 16,
+    marginLeft: '12@ms',
+    color: '#000',
+    fontSize: '16@ms',
     fontFamily: 'NotoSansKR-Regular',
     lineHeight: '22@ms',
     letterSpacing: -0.6,

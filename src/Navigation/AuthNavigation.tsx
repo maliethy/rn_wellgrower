@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import Login from '~/Screens/Auth/Login';
 import FindPassword from '~/Screens/Auth/FindPassword';
 import CustomCenter from '~/Screens/Auth/CustomCenter';
-
 import Signup from '~/Screens/Auth/Signup';
 import UserAgreement from '~/Screens/Setting/CustomCenter/UserAgreement';
 import PersonalInfoPolicy from '~/Screens/Setting/CustomCenter/PersonalInfoPolicy';
@@ -21,6 +19,7 @@ import NavBack from '~/Assets/Icons/nav_back.svg';
 import HeaderCloseButton from '~/Components/HeaderCloseButton';
 import { ScaledSheet } from 'react-native-size-matters';
 import { s, vs, ms, mvs } from 'react-native-size-matters';
+import { color } from '~/styles';
 
 const AuthStack = createStackNavigator();
 const authScreens = {
@@ -52,7 +51,6 @@ const AuthNavigation: FC = () => {
           elevation: 0,
           shadowOpacity: 0,
         },
-
         cardStyle: styles.cardStyle,
       }}>
       {Object.entries({
@@ -71,13 +69,16 @@ const AuthNavigation: FC = () => {
                 letterSpacing: -0.6,
                 fontFamily: 'NotoSansKR-Regular',
                 fontSize: ms(16),
-                // paddingVertical: 16,
+                color: color.PrimaryP900,
               },
               headerTitleContainerStyle: {
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
-                paddingVertical: ms(16),
+                paddingVertical: ms(17),
+              },
+              headerLeftContainerStyle: {
+                margin: ms(8),
               },
               headerBackImage: () => <NavBack style={styles.iconSize} />,
               headerBackTitle: ' ',
@@ -95,6 +96,6 @@ const styles = ScaledSheet.create({
   cardStyle: { backgroundColor: '#fff' },
   iconSize: { width: ms(16), height: ms(16) },
   headerRightContainerStyle: {
-    padding: ms(16),
+    padding: ms(20),
   },
 });

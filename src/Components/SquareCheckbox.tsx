@@ -17,7 +17,6 @@ function SquareCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
       style={{
         width: 90,
         height: '100%',
-        back,
       }}
       rightTextStyle={styles.rightTextStyle}
       rightText={text}
@@ -29,13 +28,12 @@ function SquareCheckbox({ isChecked, onToggleCheckbox, text }: checkboxProps): R
           style={{
             backgroundColor: color.PrimaryP900,
             borderRadius: 3,
-            borderColor: color.PrimaryP900,
             borderWidth: 1,
-            position: 'absolute',
-            top: 0,
-            left: 0,
+            borderColor: color.PrimaryP900,
           }}>
-          <CheckWhite style={styles.iconSize} />
+          <View style={{ position: 'relative', top: 0, left: 0 }}>
+            <CheckWhite style={styles.iconSize} />
+          </View>
         </View>
       }
       unCheckedImage={
