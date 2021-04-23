@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { List, ListItem, Icon, Button, Text } from 'native-base';
 
 import { resultStyles, resultSuccessStyles, resultFailureStyles } from '../styles';
 
 export default function CertificationResult({ route, navigation }) {
-  const { reqTest, user_phone } = route.params;
+  const { reqTest, user_phone, comeFrom } = route.params;
   //   const response = navigation.getParam('response') ;
   //   const phone = navigation.getParam('phone');
+  console.log('comeFrom', comeFrom);
 
   const { success, imp_uid, merchant_uid, error_msg } = reqTest;
   //   const { success, imp_uid, merchant_uid, error_msg } = response;
@@ -15,7 +16,12 @@ export default function CertificationResult({ route, navigation }) {
 
   const isSuccess = success === true;
   const { icon, btn, btnText, btnIcon } = isSuccess ? resultSuccessStyles : resultFailureStyles;
-
+  useEffect(() => {
+    comeFrom === 'Login' &&
+      navigation.setOptions({
+        headerTitle: '비밀번호 재설정',
+      });
+  }, []);
   return (
     <View style={wrapper}>
       <Icon style={icon} type="AntDesign" name={isSuccess ? 'checkcircle' : 'exclamationcircle'} />
@@ -41,7 +47,11 @@ export default function CertificationResult({ route, navigation }) {
         bordered
         transparent
         style={btn}
-        onPress={() => navigation.navigate('InputPassword', { user_phone: user_phone })}>
+        onPress={() => {
+          comeFrom === 'Login'
+            ? navigation.navigate('FindPassword')
+            : navigation.navigate('InputPassword', { user_phone: user_phone });
+        }}>
         <Icon name="arrow-back" style={btnIcon} />
         <Text style={btnText}>돌아가기</Text>
       </Button>

@@ -65,7 +65,7 @@ const Signup: FC<SignupProps> = ({ navigation }) => {
         toggleCheckBoxLocation,
         toggleCheckBoxMarketing,
       );
-      navigation.navigate('Certification');
+      navigation.navigate('Certification', { comeFrom: 'Signup' });
     } catch (err) {
       console.dir(err);
     }

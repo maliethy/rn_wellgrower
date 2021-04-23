@@ -84,13 +84,19 @@ const InputAddress = ({ route, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
-        behavior="position"
+        behavior="padding"
         style={styles.container}
         keyboardVerticalOffset={-190}
         enabled>
-        <ScrollView keyboardShouldPersistTaps="never">
+        <ScrollView
+          keyboardShouldPersistTaps="never"
+          contentContainerStyle={{
+            flexGrow: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
           <View style={styles.subContainer}>
-            <View style={{ marginTop: 19, marginBottom: 24, flex: 2 }}>
+            <View style={{ flex: 0.5 }}>
               <BasicText
                 bold={true}
                 size={'20@ms'}
@@ -105,21 +111,31 @@ const InputAddress = ({ route, navigation }) => {
                 otherStyle={{ lineHeight: 26, letterSpacing: -0.6 }}
               />
             </View>
-            <View>
+            <View style={styles.formLayout}>
               <View style={styles.InputContainerStyle}>
-                <View style={{}}>
-                  <FloatingLabelInput
-                    value={postcode}
-                    label="우편번호"
-                    disableFullscreenUI={true}
-                    editable={false}
-                  />
-                  <SmallButton
-                    onPress={() =>
-                      navigation.navigate('PostcodeModal', { comeFrom: 'InputAddress' })
-                    }
-                    title="찾기"
-                  />
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <View style={{ flex: 2 }}>
+                    <FloatingLabelInput
+                      value={postcode}
+                      label="우편번호"
+                      disableFullscreenUI={true}
+                      editable={false}
+                    />
+                  </View>
+                  <View>
+                    <SmallButton
+                      onPress={() =>
+                        navigation.navigate('PostcodeModal', { comeFrom: 'InputAddress' })
+                      }
+                      title="찾기"
+                    />
+                  </View>
                 </View>
               </View>
               <View style={styles.InputContainerStyle}>
@@ -163,7 +179,7 @@ const InputAddress = ({ route, navigation }) => {
           </View>
           <View>
             {!postcode || !addr || !detailedAddr ? (
-              <PageButton onPress={onSubmit} title="다음" disabled={true} />
+              <PageButton title="다음" disabled={true} />
             ) : (
               <PageButton onPress={onSubmit} title="다음" />
             )}
@@ -181,10 +197,11 @@ const styles = ScaledSheet.create({
   },
   subContainer: {
     flex: 1,
+    justifyContent: 'flex-start',
     padding: '16@ms',
   },
   formLayout: {
-    flex: 2,
+    flex: 10,
   },
   infoLayout: {
     fontSize: '12@ms',
@@ -209,7 +226,8 @@ const styles = ScaledSheet.create({
     marginBottom: '22@vs',
   },
   buttonAreaLayout: {
-    marginBottom: '50@vs',
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   emptyViewLayout: {
     height: '16@vs',

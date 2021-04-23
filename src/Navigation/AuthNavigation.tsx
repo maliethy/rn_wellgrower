@@ -78,7 +78,8 @@ const AuthNavigation: FC = () => {
                 paddingVertical: ms(17),
               },
               headerLeftContainerStyle: {
-                margin: ms(8),
+                marginHorizontal: ms(8),
+                marginVertical: ms(8),
               },
               headerBackImage: () => <NavBack style={styles.iconSize} />,
               headerBackTitle: ' ',
@@ -96,6 +97,7 @@ const styles = ScaledSheet.create({
   cardStyle: { backgroundColor: '#fff' },
   iconSize: { width: ms(16), height: ms(16) },
   headerRightContainerStyle: {
-    padding: ms(20),
+    paddingVertical: ms(20),
+    paddingHorizontal: ms(20),
   },
 });

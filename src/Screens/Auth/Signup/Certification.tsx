@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import IMP from 'iamport-react-native';
 import { Button } from 'react-native';
 import GoToButton from '~/Components/GoToButton';
 import Loader from '~/Components/Loader';
 import { SignupProps } from '~/@types/auth';
-export const Certification: FC<SignupProps> = ({ navigation }) => {
+export const Certification: FC<SignupProps> = ({ route, navigation }) => {
+  const { comeFrom } = route.params;
   /* [필수입력] 본인인증 종료 후, 라우터를 변경하고 결과를 전달합니다. */
   const reqTest = {
     success: true,
@@ -13,7 +14,11 @@ export const Certification: FC<SignupProps> = ({ navigation }) => {
     error_msg: 'error',
   };
   function callback(response) {
-    navigation.replace('CertificationResult', { response, user_phone: data.phone });
+    navigation.replace('CertificationResult', {
+      response,
+      user_phone: data.phone,
+      comeFrom: comeFrom,
+    });
   }
 
   /* [필수입력] 본인인증에 필요한 데이터를 입력합니다. */
@@ -25,13 +30,19 @@ export const Certification: FC<SignupProps> = ({ navigation }) => {
     phone: '01012341234',
     min_age: '',
   };
+  useEffect(() => {
+    comeFrom === 'Login' &&
+      navigation.setOptions({
+        headerTitle: '비밀번호 재설정',
+      });
+  }, []);
 
   return (
     <>
       <Button
         title="CertificationResult"
         onPress={() =>
-          navigation.navigate('CertificationResult', { reqTest, user_phone: data.phone })
+          navigation.navigate('CertificationResult', { reqTest, user_phone: data.phone, comeFrom })
         }
       />
       <IMP.Certification

@@ -23,7 +23,9 @@ const BasicModal = ({
   const onNavigation = useCallback(() => {
     buttonText === '다시시도'
       ? () => navigation.navigate('Login')
-      : navigation.navigate('Certification');
+      : buttonText === '계정 잠금 해제'
+      ? () => navigation.navigate('Certification')
+      : buttonText === '로그인 하기' && (() => navigation.navigate('Login'));
     setModalVisible(false);
   }, [navigation]);
   return (
@@ -31,7 +33,13 @@ const BasicModal = ({
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={styles.textView}>
-            <BasicText bold={true} size={'16@ms'} otherStyle={styles.modalTitle} text={title} />
+            <BasicText
+              bold={true}
+              size={'16@ms'}
+              otherStyle={styles.modalTitle}
+              text={title}
+              color={color.GrayscaleSecondaryText}
+            />
             <BasicText
               color={color.GrayscaleSecondaryText}
               size={'14@ms'}
@@ -43,7 +51,7 @@ const BasicModal = ({
           <Pressable style={styles.buttonLayout} onPress={onNavigation}>
             <BasicText
               otherStyle={styles.cancelTextStyle}
-              color={'#fff'}
+              color={color.GrayscaleWash}
               size={'16@ms'}
               text={buttonText}
             />
@@ -83,21 +91,24 @@ const styles = ScaledSheet.create({
     justifyContent: 'center',
     backgroundColor: color.PrimaryP900,
   },
-
   cancelTextStyle: {
-    fontSize: '20@ms',
     textAlign: 'center',
   },
   modalTitle: {
     marginBottom: '19@ms',
+    lineHeight: '20@ms',
+    letterSpacing: -0.6,
   },
   modalText: {
     marginBottom: '19@ms',
     textAlign: 'center',
+    lineHeight: '18@ms',
+    letterSpacing: -0.6,
   },
 
   buttonText: {
-    fontSize: '20@ms',
+    lineHeight: '20@ms',
+    letterSpacing: -0.6,
   },
 });
 

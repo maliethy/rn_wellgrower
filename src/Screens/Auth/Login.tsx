@@ -340,7 +340,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                 />
                 <InputIconCoord>
                   <TouchableOpacity
-                    style={{ width: 30, height: 30 }}
+                    hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                     onPress={() => setIsSecureText((prev) => !prev)}>
                     {isSecureText ? (
                       <VisibilityOff width={ms(27)} height={ms(27)} />
@@ -370,7 +370,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                   <BasicText
                     color={color.GrayscaleSecondaryText}
                     otherStyle={{ lineHeight: 16, letterSpacing: -0.6 }}
-                    onPress={() => navigation.navigate('FindPassword')}
+                    onPress={() => navigation.navigate('Certification', { comeFrom: 'Login' })}
                     text="비밀번호 찾기"
                   />
                 </View>
@@ -405,7 +405,7 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
               !passwordError ? (
                 <BasicButton onPress={onSubmit} title="로그인" />
               ) : (
-                <BasicButton disabled={true} onPress={onSubmit} title="로그인" />
+                <BasicButton disabled={true} title="로그인" />
               )}
             </View>
 
@@ -504,21 +504,11 @@ const LogIn: FC<AuthProps> = ({ navigation }): ReactElement => {
                 returnKeyType={'done'}
                 maxLength={16}
                 secureTextEntry={isSecureText}
-                // showPasswordContainerStyles={{
-                //   width: ms(24),
-                //   height: ms(24),
-                //   justifyContent: 'center',
-                //   alignItems: 'center',
-                //   marginTop: vs(25),
-                //   marginRight: 9,
-                // }}
-                // customShowPasswordComponent={<VisibilityOff width={ms(27)} height={ms(27)} />}
-                // customHidePasswordComponent={<VisibilityOn width={ms(27)} height={ms(27)} />}
               />
             </View>
             <InputIconCoord>
               <TouchableOpacity
-                style={{ width: 24, height: 24 }}
+                hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                 onPress={() => setIsSecureText((prev) => !prev)}>
                 {isSecureText ? (
                   <VisibilityOff width={ms(27)} height={ms(27)} />

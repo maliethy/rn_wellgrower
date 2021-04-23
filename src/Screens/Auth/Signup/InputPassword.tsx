@@ -36,7 +36,7 @@ import PageButton from '~/Components/PageButton';
 const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
   const { user_phone } = route.params;
   const { data: userData, error, revalidate, mutate } = useSWR(`${back_url}/user`, fetcherGet, {
-    dedupingInterval: 30 * 60 * 60 * 1000,
+    dedupingInterval: 30 * 60 * 60 * 400,
   }); //dedupingInterval: 30분
 
   const [phone, onChangePhone, onResetPhone, setPhone] = useInput(user_phone);
@@ -65,18 +65,13 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
     }
   }, [password]);
   const passwordCheckValidation = useCallback(() => {
-    if (password !== passwordError) {
+    if (password !== passwordCheck) {
       setPasswordCheckError(true);
     } else {
       setPasswordCheckError(false);
     }
   }, [password, passwordCheck]);
-  useEffect(() => {
-    passwordValidation();
-  }, [password]);
-  useEffect(() => {
-    passwordCheckValidation();
-  }, [passwordCheck]);
+
   useEffect(() => {
     autoHypenTel(phone, phone, setPhone);
   }, [phone]);
@@ -114,20 +109,14 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
       flex: 1,
       width: '100%',
       height: '100%',
-      justifyContent: 'space-between',
-      flexDirection: 'column',
     },
     subContainer: {
       flex: 1,
+      justifyContent: 'flex-start',
       padding: '16@ms',
     },
     formLayout: {
-      flex: 1,
-    },
-    infoLayout: {
-      fontSize: '12@ms',
-      textAlign: 'center',
-      marginBottom: '50@ms',
+      flex: 5,
     },
     checkboxRow: {
       flexDirection: 'row',
@@ -148,7 +137,6 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
     },
     buttonAreaLayout: {
       flex: 1,
-
       justifyContent: 'flex-end',
     },
     iconSize: { width: '24@ms', height: '24@ms' },
@@ -161,13 +149,19 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
-        behavior="position"
-        style={styles.container}
-        keyboardVerticalOffset={-90}
+        behavior="padding"
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={10}
         enabled>
-        <ScrollView keyboardShouldPersistTaps="never">
+        <ScrollView
+          keyboardShouldPersistTaps="never"
+          contentContainerStyle={{
+            flexGrow: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
           <View style={styles.subContainer}>
-            <View style={{ marginTop: 19, marginBottom: 24, flex: 2 }}>
+            <View style={{ flex: 1, marginTop: 19, marginBottom: 24 }}>
               <BasicText
                 bold={true}
                 size={'20@ms'}
@@ -199,6 +193,7 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
                     }}
                     onBlur={() => {
                       setIsFocusedPassword(false);
+                      passwordValidation();
                     }}
                     isFocused={isFocusedPassword}
                     onSubmitEditing={() => {
@@ -213,7 +208,7 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
                   />
                   <InputIconCoord>
                     <TouchableOpacity
-                      style={{ width: 30, height: 30 }}
+                      hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                       onPress={() => setIsSecureTextPassword((prev) => !prev)}>
                       {isSecureTextPassword ? (
                         <VisibilityOff width={ms(27)} height={ms(27)} />
@@ -244,6 +239,7 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
                     }}
                     onBlur={() => {
                       setIsFocusedPasswordCheck(false);
+                      passwordCheckValidation();
                     }}
                     isFocused={isFocusedPasswordCheck}
                     onSubmitEditing={() => {
@@ -258,7 +254,7 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
                   />
                   <InputIconCoord>
                     <TouchableOpacity
-                      style={{ width: 30, height: 30 }}
+                      hitSlop={{ top: 4, right: 4, bottom: 4, left: 4 }}
                       onPress={() => setIsSecureTextPasswordCheck((prev) => !prev)}>
                       {isSecureTextPasswordCheck ? (
                         <VisibilityOff width={ms(27)} height={ms(27)} />
@@ -280,16 +276,16 @@ const InputPassword: FC<AuthProps> = ({ route, navigation }): ReactElement => {
               </View>
             </View>
           </View>
-          <View style={styles.buttonAreaLayout}>
+          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
             {passwordError === false ||
             passwordCheckError === false ||
             !password ||
             !password.trim() ||
             !passwordCheck ||
             !passwordCheck.trim() ? (
-              <PageButton disabled={true} title="다음" onPress={onSubmit} />
-            ) : (
               <PageButton title="다음" onPress={onSubmit} />
+            ) : (
+              <PageButton disabled={true} title="다음" />
             )}
           </View>
         </ScrollView>
